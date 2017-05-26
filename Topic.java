@@ -1,5 +1,6 @@
 public class Topic{
     ArrayList<Topic> subtopics=new ArrayList<Topic>;
-    Text text=new Text();
+    String text;
+    int fontSize;
     Body body=new Body();
 }
