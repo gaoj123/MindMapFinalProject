@@ -3,6 +3,7 @@ ControlP5 cp5;
 
 String input = "";
 void setup() {
+
   size(750,400);
   
   PFont font = createFont("arial",20);
