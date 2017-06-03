@@ -3,6 +3,10 @@ public class Topic{
     Subtopic child=null;
     String text;
     int fontSize;
+    static int topicId;
+    static int subtopicId;
+    int frontParCor;
+    int toSubCor;
     //create object after getting x value from text field
     public Topic(){
 	text="";
