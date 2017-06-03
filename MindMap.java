@@ -1,3 +1,6 @@
 public class MindMap{
-    Diagram diag=new Diagram();
+    public MindMap(){
+    }
+    public void update(){
+    }
 }
