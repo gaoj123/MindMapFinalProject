@@ -19,6 +19,15 @@ void setup() {
   PFont font = createFont("arial",20);
   
   cp5 = new ControlP5(this);
+  /**
+  cp5.addTextfield("floatingt")
+       .setPosition(20,100)
+       .setSize(200,40)
+       .setFont(font)
+       .setFocus(true)
+       .setColor(color(255, 0,0))
+       ;
+       **/
    // create the button object
    /**
    but = new Button("Click Me", 20, 20, 100, 50);
@@ -51,6 +60,9 @@ void setup() {
   
   public void controlEvent(ControlEvent e){
     println(e.getController().getName());
+    if(e.isAssignableFrom(Textfield.class)){
+      println("accessing string: "+e.getName()+" "+e.getStringValue());
+    }
   }
 
 
@@ -58,11 +70,18 @@ void setup() {
 void draw() {
   //has to draw the buttons, check for clicked buttons
     //background(0);
-  
+     PFont font = createFont("arial",20);
+
   // draw the button in the window
-  
+   
     if (floatingclicked == true){
-      rect(20,50,80,50);
+      cp5.addTextfield("floating")
+       .setPosition(20,100)
+       .setSize(200,40)
+       .setFont(font)
+       .setFocus(true)
+       .setColor(color(255, 0,0))
+       ;
     }
     if(siblingclicked == true){
       rect(20, 90, 80, 90);
@@ -117,11 +136,7 @@ class Button {
     fill(0);
     text(label, x + (w / 2), y + (h / 2));
   }
-  void update(){
-    if (MouseIsOver()){
-      rect(100,400,200,100);
-    }
- }
+  
   boolean MouseIsOver() {
     if (mouseX > x && mouseX < (x + w) && mouseY > y && mouseY < (y + h)) {
       return true;
