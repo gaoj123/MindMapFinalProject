@@ -31,6 +31,7 @@ void setup() {
        .setFocus(true)
        .setColor(color(255, 0,0))
        ;
+      
    // create the button object
    /**
    but = new Button("Click Me", 20, 20, 100, 50);
@@ -72,14 +73,16 @@ void setup() {
 void draw() {
   //has to draw the buttons, check for clicked buttons
   background(0);
-
-  // draw the button in the window
-  PFont font = createFont("arial",20);
+     PFont font = createFont("arial",20);
     if (floatingclicked == true){
+      println("floating was clicked");
+      //will trigger a method that draws the stuff probably
       rect(100,90,180,90);
+      text(input,100,90);
     }
     if(siblingclicked == true){
       rect(20, 90, 80, 90);
+      floatingclicked = false;
     }
     if(subtopicclicked == true){
       rect(40,100, 90, 100);
@@ -88,10 +91,12 @@ void draw() {
     floatingb.setBroadcast(true);
     siblingb.setBroadcast(true);
     subtopicb.setBroadcast(true);
+  // draw the button in the window
+ 
 }
+
   void mousePressed(){
-    
-    
+
   }
     
 
