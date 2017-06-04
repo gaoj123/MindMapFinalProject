@@ -1,5 +1,17 @@
 import java.util.*;
-public class Topic{
+public class Topic implements Comparable<Topic>{
+    public int compareTo(Topic other){
+	//in decreasing order of y-cor
+	if(toSubCor[1]>other.toSubCor[1]){
+	    return -1;
+	}
+	else if(toSubCor[1]==other.toSubCor[1]){
+	    return 0;
+	}
+	else{
+	    return 1;
+	}
+    }
     ArrayList<Topic> subtopics=new ArrayList<Topic>();
     Subtopic child=null;
     String text;
@@ -9,6 +21,7 @@ public class Topic{
     static int widthOfBox=20;
     int lengthOfBox=30;
     Topic parent;
+    Topic siblingSelected;
     int[] fromParCor=new int[2]; //on left side of rectangle
     int[] toSubCor=new int[2]; //on botom side of rectangle
     //create object after getting x value from text field
@@ -18,11 +31,17 @@ public class Topic{
     public Topic(String x){
 	text=x;
     }
+    public void updateSiblingSelected(Topic sibChosen){
+	//when user clicks "add sibling" after selecting a label, this method is called
+	siblingSelected=sibChosen;
+    }
     public void updateSubTopic(){
+	Collections.sort(subtopics,Collections.reverseOrder());
 	//maintain order of subtopics in order from highest to lowest y-cor
 	//use sort
     }
     public void updateLeftCor(){
+	//when adding children to parents
 	fromParCor[0]=parent.corForSubtopic()[0];
 	fromParCor[1]=parent.corForSubtopic()[1];
     }
@@ -112,6 +131,24 @@ public class Topic{
 	toRet[1]=lowestYCor;
 	return toRet;
     }
+    public void updateLeftCorSibling(){
+	fromParCor[0]=siblingSelected.corForSibling()[0];
+	fromParCor[1]=siblingSelected.corForSibling()[1];
+    }
+    public int[] corForSibling(){
+	int[] toRet=new int[2];
+	//x-cor is just the same as the sibling's  x-cor
+	toRet[0]=this.leftParCor()[0];
+	toRet[1]=this.leftParCor()[1]-100;
+	return toRet;
+    }
+    public void addSibling(Topic sibling){
+	//"this" refers to sibling selected. call like this: siblingSelected.addSibling(Topic sibling) so siblingSelected and sibling will be on same level
+        sibling.parent=this.parent;
+	sibling.updateLeftCorSibling();
+	sibling.updateBotCor();
+	this.parent.addSubtopic(sibling);
+    }
     public void addSubtopic(Topic children){
 	//subtopics.add(children);
 	children.parent=this;
@@ -127,6 +164,9 @@ public class Topic{
 	//     return child.addChild(children);
 	// }
     }
+    public void updateRestOfDiag(){
+	//shifts all siblings and topics below it
+    }
     public static void main(String[] args){
 	Topic root=new Topic();
 	//if we instantiate empty topic, we'll just follow with modifyLabel (line below)
@@ -138,13 +178,14 @@ public class Topic{
 	System.out.println("root "+root);
 	System.out.println("child1 "+child1);
 	Topic child2=new Topic("snacks");
-        root.addSubtopic(child2);
-	System.out.println("child2 "+child2);
-	Topic child5=new Topic("soda");
-	child1.addSubtopic(child5);
-	System.out.println("child5 "+child5);
-	System.out.println("child2 "+child2);
-	// Topic child3=new Topic("gummy");
+	child2.updateSiblingSelected(child1);
+	child1.addSibling(child2);
+        // root.addSubtopic(child2);
+	   System.out.println("child2 "+child2);
+	// // Topic child5=new Topic("soda");
+	// // child1.addSubtopic(child5);
+	// // System.out.println("child5 "+child5);
+	// // System.out.println("child2 "+child2);
 	// child2.addSubtopic(child3);
 	// System.out.println("child3 "+child3);
 	// Topic child4=new Topic("chips");
