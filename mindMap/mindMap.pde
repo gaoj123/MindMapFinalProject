@@ -4,9 +4,13 @@ ControlP5 cp5;
 String input = "";
 //Button but;  // the button
 boolean floatingclicked = false;
+boolean siblingclicked = false;
+boolean subtopicclicked = false;
 int click = 1;       // number of times the button is clicked
 
 controlP5.Button floatingb;
+controlP5.Button siblingb;
+controlP5.Button subtopicb;
 
 void setup() {
 
@@ -30,12 +34,14 @@ void setup() {
     .setPosition(0,0)
     .setSize(250,19)
     ;
-  cp5.addButton("sibling")
+  siblingb = cp5.addButton("sibling")
+    .setBroadcast(false)
     .setValue(1)
     .setPosition(250,0)
     .setSize(250,19)
     ;
-  cp5.addButton("subtopic")
+  subtopicb = cp5.addButton("subtopic")
+    .setBroadcast(false)
     .setValue(2)
     .setPosition(500,0)
     .setSize(250,19)
@@ -56,13 +62,18 @@ void draw() {
   // draw the button in the window
   
     if (floatingclicked == true){
-      line(20,50,80,50);
+      rect(20,50,80,50);
     }
-    else{
-      ;
+    if(siblingclicked == true){
+      rect(20, 90, 80, 90);
+    }
+    if(subtopicclicked == true){
+      rect(40,100, 90, 100);
     }
     
     floatingb.setBroadcast(true);
+    siblingb.setBroadcast(true);
+    subtopicb.setBroadcast(true);
 }
 
 // mouse button clicked
@@ -73,10 +84,12 @@ void draw() {
   
   public void sibling(int val){
     println("clicked:" + val);
+    siblingclicked = true;
   }
   
   public void subtopic(int val){
     println("clicked:" + val);
+    subtopicclicked = true;
   }
 
 // the Button class
