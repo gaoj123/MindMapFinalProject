@@ -2,10 +2,11 @@ import controlP5.*;
 ControlP5 cp5;
 
 String input = "";
-Button but;  // the button
-boolean butclicked = true;
+//Button but;  // the button
+boolean floatingclicked = false;
 int click = 1;       // number of times the button is clicked
 
+controlP5.Button floatingb;
 
 void setup() {
 
@@ -15,21 +16,16 @@ void setup() {
   
   cp5 = new ControlP5(this);
    // create the button object
+   /**
    but = new Button("Click Me", 20, 20, 100, 50);
    ButtonBar b = cp5.addButtonBar("bar")
      .setPosition(0, 0)
      .setSize(900, 20)
      ;
-     /**
-     .addItems(split("a b c"," "))
-     ;
-     println(b.getItem("a"));
-  b.changeItem("a","text","floating");
-  b.changeItem("b","text","sibling");
-  b.changeItem("c","text","subtopic");
-  **/
+     **/
 
-  cp5.addButton("floating")
+  floatingb = cp5.addButton("floating")
+    .setBroadcast(false)
     .setValue(0)
     .setPosition(0,0)
     .setSize(250,19)
@@ -50,9 +46,29 @@ void setup() {
   public void controlEvent(ControlEvent e){
     println(e.getController().getName());
   }
+
+
+
+void draw() {
+  //has to draw the buttons, check for clicked buttons
+    //background(0);
   
+  // draw the button in the window
+  
+    if (floatingclicked == true){
+      line(20,50,80,50);
+    }
+    else{
+      ;
+    }
+    
+    floatingb.setBroadcast(true);
+}
+
+// mouse button clicked
   public void floating(int val){
     println("clicked:" +val);
+    floatingclicked = true;
   }
   
   public void sibling(int val){
@@ -62,21 +78,6 @@ void setup() {
   public void subtopic(int val){
     println("clicked:" + val);
   }
-<<<<<<< HEAD
-
-
-void draw() {
-  //has to draw the buttons, check for clicked buttons
-    background(0);
-  
-  // draw the button in the window
-  
-  but.update();
-}
-
-// mouse button clicked
-
-
 
 // the Button class
 class Button {
