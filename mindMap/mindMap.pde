@@ -77,6 +77,7 @@ void draw() {
     if (floatingclicked == true){
       println("floating was clicked");
       //will trigger a method that draws the stuff probably
+      createtopic();
       rect(100,90,180,90);
       text(input,100,90);
     }
@@ -116,6 +117,15 @@ void draw() {
     subtopicclicked = true;
   }
 
+  void createtopic(){
+      cp5.addTextfield("main")
+       .setPosition(50,100)
+       .setSize(200,40)
+       .setFocus(true)
+       .setColor(color(255, 0,0))
+       ;
+  }
+    
 // the Button class
 class Button {
   String label; // button label
