@@ -1,5 +1,17 @@
 import java.util.*;
-public class Topic{
+public class Topic implements Comparable<Topic>{
+    public int compareTo(Topic other){
+	//in decreasing order of y-cor
+	if(toSubCor[1]>other.toSubCor[1]){
+	    return -1;
+	}
+	else if(toSubCor[1]==other.toSubCor[1]){
+	    return 0;
+	}
+	else{
+	    return 1;
+	}
+    }
     ArrayList<Topic> subtopics=new ArrayList<Topic>();
     Subtopic child=null;
     String text;
@@ -19,6 +31,7 @@ public class Topic{
 	text=x;
     }
     public void updateSubTopic(){
+	Collections.sort(subtopics,Collections.reverseOrder());
 	//maintain order of subtopics in order from highest to lowest y-cor
 	//use sort
     }
