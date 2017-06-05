@@ -13,9 +13,6 @@ controlP5.Button floatingb;
 controlP5.Button siblingb;
 controlP5.Button subtopicb;
 
-TextField text = new TextField("main",16);
-
-
 void setup() {
 
   size(750,400);
@@ -54,30 +51,10 @@ void setup() {
 void draw() {
   //has to draw the buttons, check for clicked buttons
   background(0);
-     PFont font = createFont("arial",20);
-    if (floatingclicked == true){
-      println("floating was clicked");
-      createMain();
-      //rect(100,90,180,90);
-      //text(input,100,90);
-    }
-    if(siblingclicked == true){
-      println("sibling was clicked");
-      /**
-      rect(20, 90, 80, 90);
-      floatingclicked = false;
-      **/
-      createSibling();
-    }
-    if(subtopicclicked == true){
-      createSubtopic();
-    }
-    
     floatingb.setBroadcast(true);
     siblingb.setBroadcast(true);
     subtopicb.setBroadcast(true);
   // draw the button in the window
- 
 }
 
   void mousePressed(){
@@ -89,16 +66,19 @@ void draw() {
   public void floating(int val){
     println("clicked:" +val);
     floatingclicked = true;
+    createMain();
   }
   
   public void sibling(int val){
     println("clicked:" + val);
     siblingclicked = true;
+    createSibling();
   }
   
   public void subtopic(int val){
     println("clicked:" + val);
     subtopicclicked = true;
+    createSubtopic();
   }
 
   void createMain(){
@@ -114,7 +94,7 @@ void draw() {
   
   void createSibling(){
       PFont font = createFont("arial",20);
-      cp5.addTextfield("sibling")
+      cp5.addTextfield("sib")
        .setPosition(50,200)
        .setSize(200,40)
        .setFont(font)
@@ -125,7 +105,7 @@ void draw() {
   
   void createSubtopic(){
     PFont font = createFont("arial",20);
-      cp5.addTextfield("subtopic")
+      cp5.addTextfield("sub")
        .setPosition(150,300)
        .setSize(200,40)
        .setFont(font)
