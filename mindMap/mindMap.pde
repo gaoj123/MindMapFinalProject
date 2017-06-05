@@ -43,8 +43,9 @@ void setup() {
   public void controlEvent(ControlEvent e){
     println(e.getController().getName());
     if(e.isAssignableFrom(Textfield.class)){
-      println("accessing string: "+e.getName()+" "+e.getStringValue());
       input = e.getStringValue();
+      println("accessing string: "+e.getName()+" "+input);
+      removeMain();
     }
   }
 
@@ -89,7 +90,20 @@ void draw() {
        .setFont(font)
        .setFocus(true)
        .setColor(color(255, 0,0))
+       
        ;
+  }
+  
+  void removeMain(){
+    cp5.get("main").remove();
+  }
+  
+  void removeSib(){
+    cp5.get("sib").remove();
+  }
+  
+  void removeSub(){
+    cp5.get("sub").remove();
   }
   
   void createSibling(){
