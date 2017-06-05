@@ -31,6 +31,29 @@ public class Topic implements Comparable<Topic>{
     public Topic(String x){
 	text=x;
     }
+    public int[] topLeftCorner(){
+	int[] toRet=new int[2];
+	toRet[0]=leftParCor()[0];
+	toRet[1]=leftParCor()[1]+widthOfBox/2;
+	return toRet;
+    }
+    public int[] vertLine(){
+	//call from child
+	int[] toRet=new int[4];
+	toRet[0]=parent.botSubCor()[0];
+	toRet[1]=parent.botSubCor()[1];
+	toRet[2]=parent.botSubCor()[0];
+	toRet[3]=parent.botSubCor()[1]-100;
+	return toRet;
+    }
+    public int[] horLine(){
+	int[] toRet=new int[4];
+	toRet[0]=vertLine()[2];
+	toRet[1]=vertLine()[3];
+	toRet[2]=leftParCor()[0];
+	toRet[3]=leftParCor()[1];
+	return toRet;
+    }
     public void updateSiblingSelected(Topic sibChosen){
 	//when user clicks "add sibling" after selecting a label, this method is called
 	siblingSelected=sibChosen;
