@@ -54,6 +54,7 @@ void setup() {
       if (buttonvalue == 2){
         removeSub();
       }
+      createText();
     }
   }
 
@@ -136,6 +137,20 @@ void draw() {
        .setFont(font)
        .setFocus(true)
        .setColor(color(255, 0,0))
+       ;
+  }
+  
+  void createText(){
+    PFont font = createFont("arial",20);
+      cp5.addTextarea("textinput")
+       .setPosition(50,100)
+       .setSize(200,40)
+       .setFont(font)
+       .setLineHeight(14)
+       .setColor(color(128))
+       .setColorBackground(color(255,100))
+       .setColorForeground(color(255,100))
+       .setText(input)
        ;
   }
 // the Button class
