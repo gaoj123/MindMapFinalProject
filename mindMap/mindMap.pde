@@ -8,7 +8,7 @@ boolean floatingclicked = false;
 boolean siblingclicked = false;
 boolean subtopicclicked = false;
 int click = 1;       // number of times the button is clicked
-
+int buttonvalue;
 controlP5.Button floatingb;
 controlP5.Button siblingb;
 controlP5.Button subtopicb;
@@ -45,7 +45,15 @@ void setup() {
     if(e.isAssignableFrom(Textfield.class)){
       input = e.getStringValue();
       println("accessing string: "+e.getName()+" "+input);
-      removeMain();
+      if (buttonvalue == 0){
+        removeMain();
+      }
+      if (buttonvalue == 1){
+        removeSib();
+      }
+      if (buttonvalue == 2){
+        removeSub();
+      }
     }
   }
 
@@ -67,16 +75,19 @@ void draw() {
   public void floating(int val){
     println("clicked:" +val);
     floatingclicked = true;
+    buttonvalue = val;
     createMain();
   }
   
   public void sibling(int val){
+    buttonvalue = val;
     println("clicked:" + val);
     siblingclicked = true;
     createSibling();
   }
   
   public void subtopic(int val){
+    buttonvalue = val;
     println("clicked:" + val);
     subtopicclicked = true;
     createSubtopic();
