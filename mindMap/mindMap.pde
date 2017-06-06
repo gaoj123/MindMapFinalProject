@@ -9,12 +9,14 @@ boolean siblingclicked = false;
 boolean subtopicclicked = false;
 int click = 1;       // number of times the button is clicked
 int buttonvalue;
+int topicID = 0;
+int xcor, ycor;
+ArrayList<Topic> subtops = new ArrayList<Topic>();
 controlP5.Button floatingb;
 controlP5.Button siblingb;
 controlP5.Button subtopicb;
 
 void setup() {
-
   size(750,400);
   cp5 = new ControlP5(this);
       
@@ -47,6 +49,8 @@ void setup() {
       println("accessing string: "+e.getName()+" "+input);
       if (buttonvalue == 0){
         removeMain();
+        subtops.get(0).modifyLabel(input);
+        println(subtops.get(0));
       }
       if (buttonvalue == 1){
         removeSib();
@@ -68,7 +72,11 @@ void draw() {
 }
 
   void mousePressed(){
-
+    if (keyCode == SHIFT){
+      xcor = mouseX;
+      ycor = mouseY;
+      println(""+mouseX+ " "+mouseY);
+    }
   }
     
 
@@ -77,7 +85,12 @@ void draw() {
     println("clicked:" +val);
     floatingclicked = true;
     buttonvalue = val;
+    Topic topica=new Topic();
+    topicID++;
+    subtops.add(topica);
+    println(topica);
     createMain();
+    
   }
   
   public void sibling(int val){
@@ -97,7 +110,7 @@ void draw() {
   void createMain(){
     PFont font = createFont("arial",20);
       cp5.addTextfield("main")
-       .setPosition(50,100)
+       .setPosition(xcor,ycor)
        .setSize(200,40)
        .setFont(font)
        .setFocus(true)
