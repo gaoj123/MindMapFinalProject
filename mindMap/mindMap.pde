@@ -9,6 +9,7 @@ boolean siblingclicked = false;
 boolean subtopicclicked = false;
 int click = 1;       // number of times the button is clicked
 int buttonvalue;
+ArrayList<Topic> subtops = new ArrayList<Topic>();
 controlP5.Button floatingb;
 controlP5.Button siblingb;
 controlP5.Button subtopicb;
