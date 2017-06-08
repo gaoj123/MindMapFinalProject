@@ -45,11 +45,14 @@ void mousePressed(){
 void keyPressed(){
   if (key == ENTER){
     setLabel = false;
+    println("no longer performing any action");
   }
   
   if (setLabel){
     String newLabel = "";
     //change the text of the selected topic
+    newLabel += key;
+    subtops.get(theChosenOne).label += newLabel;
   }
   if (key == 'f'){
     subtops.add(new TopicDisplay());
@@ -64,6 +67,7 @@ void keyPressed(){
   }
   else if(key == 'w'){
      setLabel = true;
+     println("change to writing mode");
   }
   
 }
