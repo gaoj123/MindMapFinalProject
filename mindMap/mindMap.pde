@@ -2,200 +2,121 @@ import controlP5.*;
 import java.awt.*;
 ControlP5 cp5;
 
-String input = "";
-//Button but;  // the button
-boolean floatingclicked = false;
-boolean siblingclicked = false;
-boolean subtopicclicked = false;
-int click = 1;       // number of times the button is clicked
-int buttonvalue;
-int topicID = 0;
-int xcor, ycor;
-ArrayList<Topic> subtops = new ArrayList<Topic>();
-controlP5.Button floatingb;
-controlP5.Button siblingb;
-controlP5.Button subtopicb;
-
+ArrayList<TopicDisplay> subtops=new ArrayList<TopicDisplay>(10);
+ArrayList<Topic> topiclist = new ArrayList<Topic>(10);
+boolean setLabel = false;
+int theChosenOne;
 void setup() {
   size(750,400);
-  cp5 = new ControlP5(this);
-      
-   //creating the buttons
-  floatingb = cp5.addButton("floating")
-    .setBroadcast(false)
-    .setValue(0)
-    .setPosition(0,0)
-    .setSize(250,19)
-    ;
-  siblingb = cp5.addButton("sibling")
-    .setBroadcast(false)
-    .setValue(1)
-    .setPosition(250,0)
-    .setSize(250,19)
-    ;
-  subtopicb = cp5.addButton("subtopic")
-    .setBroadcast(false)
-    .setValue(2)
-    .setPosition(500,0)
-    .setSize(250,19)
-    ;
-
-}
   
-  public void controlEvent(ControlEvent e){
-    println(e.getController().getName());
-    if(e.isAssignableFrom(Textfield.class)){
-      input = e.getStringValue();
-      println("accessing string: "+e.getName()+" "+input);
-      if (buttonvalue == 0){
-        removeMain();
-        subtops.get(0).modifyLabel(input);
-        println(subtops.get(0));
-      }
-      if (buttonvalue == 1){
-        removeSib();
-      }
-      if (buttonvalue == 2){
-        removeSub();
-      }
-      createText();
-    }
+  for (int num = 0; num < subtops.size(); num++){
+    subtops.add(num, new TopicDisplay(100,10,20));
+    topiclist.add(num, new Topic(subtops.get(num).label));
   }
+  
+}
 
 void draw() {
-  //has to draw the buttons, check for clicked buttons
-  background(0);
-    floatingb.setBroadcast(true);
-    siblingb.setBroadcast(true);
-    subtopicb.setBroadcast(true);
-  // draw the button in the window
+  background(250);
+  showup();
+}
+  
+void showup(){
+  for (int num = 0; num < subtops.size(); num++){  
+    subtops.get(num).toBeDrawn();
+  }
 }
 
-  void mousePressed(){
-    if (keyCode == SHIFT){
-      xcor = mouseX;
-      ycor = mouseY;
-      println(""+mouseX+ " "+mouseY);
+
+
+void mousePressed(){
+  //loop to go through every single topic in the arraylist and see if this is the topic that was selected
+  for (int num = 0; num < subtops.size(); num++){
+    TopicDisplay check = subtops.get(num);
+    
+    //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
+    if (check.len > dist(mouseX, mouseY, check.x, check.y)){
+      //if this was the selected topic, set the topic's selected boolean to be true
+      subtops.get(num).selected = true;
+      theChosenOne = num;
+      println("something was selected!");
     }
   }
+  
+  
+}
+void keyPressed(){
+  if (key == ENTER){
+    setLabel = false;
+    subtops.get(theChosenOne).selected = false;
+    println("no longer performing any action");
+  }
+  
+  if (setLabel){
+    String newLabel = "";
+    //change the text of the selected topic
+    newLabel += key;
+    subtops.get(theChosenOne).label += newLabel;
+  }
+  if (key == 'f'){
+    subtops.add(new TopicDisplay());
+      //need a constructor that can take an x and y cor
+      //subtops.add(new Topic(mouseX, mouseY))
+   }
+  else if (key == 's'){
+    //subtopic
+  }
+  else if (key == 'z'){
+    //sibling
+    /**
+    subtops.add(theChosenOne+1, new TopicDisplay(
+    topiclist.add(theChosenOne+1, new Topic( 
+    **/
+  }
+  else if(key == 'w'){
+     setLabel = true;
+     println("change to writing mode");
+  }
+  
+}
     
-
-// mouse button clicked
-  public void floating(int val){
-    println("clicked:" +val);
-    floatingclicked = true;
-    buttonvalue = val;
-    Topic topica=new Topic();
-    topicID++;
-    subtops.add(topica);
-    println(topica);
-    createMain();
-    
-  }
+class TopicDisplay {
+  String label =""; // label
+  int x;      // top left corner x position
+  int y;      // top left corner y position
+  boolean selected;
+  int len;
   
-  public void sibling(int val){
-    buttonvalue = val;
-    println("clicked:" + val);
-    siblingclicked = true;
-    createSibling();
+  TopicDisplay(){
+    x = 100;
+    y = 100;
+    len = 20;
+    selected = false;
   }
-  
-  public void subtopic(int val){
-    buttonvalue = val;
-    println("clicked:" + val);
-    subtopicclicked = true;
-    createSubtopic();
-  }
-
-  void createMain(){
-    PFont font = createFont("arial",20);
-      cp5.addTextfield("main")
-       .setPosition(xcor,ycor)
-       .setSize(200,40)
-       .setFont(font)
-       .setFocus(true)
-       .setColor(color(255, 0,0))
-       
-       ;
-  }
-  
-  void removeMain(){
-    cp5.get("main").remove();
-  }
-  
-  void removeSib(){
-    cp5.get("sib").remove();
-  }
-  
-  void removeSub(){
-    cp5.get("sub").remove();
-  }
-  
-  void createSibling(){
-      PFont font = createFont("arial",20);
-      cp5.addTextfield("sib")
-       .setPosition(50,200)
-       .setSize(200,40)
-       .setFont(font)
-       .setFocus(true)
-       .setColor(color(255, 0,0))
-       ;
-  }
-  
-  void createSubtopic(){
-    PFont font = createFont("arial",20);
-      cp5.addTextfield("sub")
-       .setPosition(150,300)
-       .setSize(200,40)
-       .setFont(font)
-       .setFocus(true)
-       .setColor(color(255, 0,0))
-       ;
-  }
-  
-  void createText(){
-    PFont font = createFont("arial",20);
-      cp5.addTextarea("textinput")
-       .setPosition(50,100)
-       .setSize(200,40)
-       .setFont(font)
-       .setLineHeight(14)
-       .setColor(color(128))
-       .setColorBackground(color(255,100))
-       .setColorForeground(color(255,100))
-       .setText(input)
-       ;
-  }
-// the Button class
-class Button {
-  String label; // button label
-  float x;      // top left corner x position
-  float y;      // top left corner y position
-  float w;      // width of button
-  float h;      // height of button
-  
   // constructor
-  Button(String labelB, float xpos, float ypos, float widthB, float heightB) {
-    label = labelB;
-    x = xpos;
-    y = ypos;
-    w = widthB;
-    h = heightB;
+  TopicDisplay(int xcor, int ycor, int size) {
+    x = xcor;
+    y = ycor;
+    len = size;
+    selected = false;
   }
   
-  void Draw() {
-    fill(218);
-    stroke(141);
-    rect(x, y, w, h, 10);
-    textAlign(CENTER, CENTER);
-    fill(0);
-    text(label, x + (w / 2), y + (h / 2));
-  }
-  
-  boolean MouseIsOver() {
-    if (mouseX > x && mouseX < (x + w) && mouseY > y && mouseY < (y + h)) {
-      return true;
+  void toBeDrawn() {
+    if (!this.selected){
+      strokeWeight(1);
     }
-    return false;
+    else{
+      strokeWeight(3);
+    }
+    
+    //code to figure out how to position various other sibling or subtopics here
+   fill(125);
+   rect(this.x, this.y, 100,1);
+   text(label,x,y);
   }
+  
+  void connect(){
+    //if this is not a floating topic, draw two lines, to the right and above to connect to previous topic
+  }
+ 
 }
