@@ -4,6 +4,7 @@ ControlP5 cp5;
 
 ArrayList<TopicDisplay> subtops=new ArrayList<TopicDisplay>(10);
 boolean setLabel = false;
+int theChosenOne;
 void setup() {
   size(750,400);
   
@@ -28,8 +29,17 @@ void showup(){
 
 void mousePressed(){
   //loop to go through every single topic in the arraylist and see if this is the topic that was selected
-  //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
-  //if this was the selected topic, set the topic's selected boolean to be true
+  for (int num = 0; num < subtops.size(); num++){
+    TopicDisplay check = subtops.get(num);
+    //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
+    if (check.len > dist(mouseX, mouseY, check.x, check.y)){
+      //if this was the selected topic, set the topic's selected boolean to be true
+      subtops.get(num).selected = true;
+      theChosenOne = num;
+      println("something was selected!");
+    }
+  }
+  
   
 }
 void keyPressed(){
