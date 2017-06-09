@@ -88,14 +88,35 @@ void keyPressed(){
     }
   }
   if (key == 'f'){
+    Topic x=new Topic();
+    println(topiclist.size());
+    if(topiclist.size()==1){
+      x.updateRoot();
+      println(topiclist.size());
+    }   
     subtops.add(new TopicDisplay());
+    topiclist.add(x);
       //need a constructor that can take an x and y cor
       //subtops.add(new Topic(mouseX, mouseY))
    }
   else if (key == 's'){
+    Topic x=new Topic();
+    topiclist.get(theChosenOne).addSubtopic(x);
+    println(topiclist.get(theChosenOne));
+    //subtops.add(theChosenOne+1,new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],20));
+    subtops.get(theChosenOne).subs.add(new TopicDisplay(topiclist.get(theChosenOne).topLeftCorner()[0], topiclist.get(theChosenOne).topLeftCorner()[1], 100));
+    //subtops.get(theChosenOne).subs.add(new TopicDisplay(150, 150, 100));
+    println("CRAZYYY");
+    println(subtops.get(theChosenOne).subs);
+    topiclist.add(theChosenOne+1,x);
     //subtopic
+    //when adding a subtopic, what's happening is that a new topic is being added to an arraylist within the main topic
   }
   else if (key == 'z'){
+    Topic x=new Topic();
+    topiclist.get(theChosenOne).addSibling(x);
+    subtops.add(theChosenOne+1,new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],20));
+    topiclist.add(theChosenOne+1,x);
     //sibling
     /**
     subtops.add(theChosenOne+1, new TopicDisplay(
@@ -119,7 +140,7 @@ class TopicDisplay {
   TopicDisplay(){
     x = 100;
     y = 100;
-    len = 20;
+    len = 100;
     selected = false;
   }
   // constructor
