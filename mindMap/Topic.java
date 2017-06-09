@@ -13,7 +13,7 @@ public class Topic implements Comparable<Topic>{
 	}
     }
     ArrayList<Topic> subtopics=new ArrayList<Topic>();
-    //Subtopic child=null;
+    Subtopic child=null;
     String text;
     int fontSize;
     static int topicId=0;

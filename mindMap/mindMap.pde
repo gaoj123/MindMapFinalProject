@@ -136,7 +136,7 @@ class TopicDisplay {
   int y;      // top left corner y position
   boolean selected;
   int len;
-  
+    ArrayList<TopicDisplay> subs=new ArrayList<TopicDisplay>();
   TopicDisplay(){
     x = 100;
     y = 100;
