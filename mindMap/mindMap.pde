@@ -104,11 +104,13 @@ void keyPressed(){
     topiclist.get(theChosenOne).addSubtopic(x);
     println(topiclist.get(theChosenOne));
     //subtops.add(theChosenOne+1,new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],20));
+    
+    //if the chosen one's subtopic arraylist's size is equal to or greater than one, y-cor must change
     subtops.get(theChosenOne).subs.add(new TopicDisplay(topiclist.get(theChosenOne).topLeftCorner()[0], topiclist.get(theChosenOne).topLeftCorner()[1], 100));
     //subtops.get(theChosenOne).subs.add(new TopicDisplay(150, 150, 100));
     println("CRAZYYY");
     println(subtops.get(theChosenOne).subs);
-    topiclist.add(theChosenOne+1,x);
+    //topiclist.add(theChosenOne+1,x);
     //subtopic
     //when adding a subtopic, what's happening is that a new topic is being added to an arraylist within the main topic
   }
@@ -136,7 +138,7 @@ class TopicDisplay {
   int y;      // top left corner y position
   boolean selected;
   int len;
-    ArrayList<TopicDisplay> subs=new ArrayList<TopicDisplay>();
+  ArrayList<TopicDisplay> subs=new ArrayList<TopicDisplay>();
   TopicDisplay(){
     x = 100;
     y = 100;
