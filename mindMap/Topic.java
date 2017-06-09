@@ -33,8 +33,8 @@ public class Topic implements Comparable<Topic>{
     }
     public int[] topLeftCorner(){
 	int[] toRet=new int[2];
-	toRet[0]=leftParCor()[0];
-	toRet[1]=leftParCor()[1]+widthOfBox/2;
+	toRet[0]=leftParCor()[0]+widthOfBox+100;
+	toRet[1]=leftParCor()[1]+widthOfBox+100;
 	return toRet;
     }
     public int[] vertLine(){
