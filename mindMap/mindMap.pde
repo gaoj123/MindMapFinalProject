@@ -25,9 +25,9 @@ void draw() {
 void showup(){
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
-    println(num);
+    //println(num);
     if (subtops.get(num).subs.size() > 0){
-      println("this topic has a subtopic"+subtops.get(num).subs.size());
+      //println("this topic has a subtopic"+subtops.get(num).subs.size());
       for (int num2 = 0; num2 < subtops.get(num).subs.size(); num2++){
         subtops.get(num).subs.get(num2).toBeDrawn();
       }
@@ -65,6 +65,7 @@ void mousePressed(){
   
 }
 void keyPressed(){
+  showup();
   if (key == ENTER){
     setLabel = false;
     subtops.get(theChosenOne).selected = false;
@@ -79,38 +80,51 @@ void keyPressed(){
     //change the text of the selected topic
     newLabel += key;
     if (theChosenOneSub != -1){
-      if (subtops.get(theChosenOne).subs.get(theChosenOneSub).selected = true){
+      if (subtops.get(theChosenOne).subs.get(theChosenOneSub).selected == true){
         subtops.get(theChosenOne).subs.get(theChosenOneSub).label += newLabel;
-       // topiclist.get(theChosenOne).subtopics.get(theChosenOneSub).modifyLabel(newLabel);
+       topiclist.get(theChosenOne).getSub(theChosenOneSub).mod(newLabel);
       }
     }
-    else if(subtops.get(theChosenOne).selected = true){
+    else if(subtops.get(theChosenOne).selected == true){
       subtops.get(theChosenOne).label += newLabel;
-      topiclist.get(theChosenOne).modifyLabel(newLabel);
+      topiclist.get(theChosenOne).mod(newLabel);
     }
+    println(newLabel);
   }
-  if (key == 'f'){
+  if (key == 'f'&&setLabel==false){
     Topic x=new Topic();
     println(topiclist.size());
-    if(topiclist.size()==1){
+    if(topiclist.size()==0){
+      println("ROOT");
       x.updateRoot();
       println(topiclist.size());
+      subtops.add(new TopicDisplay());
     }   
-    subtops.add(new TopicDisplay());
+    else{
+      subtops.add(new TopicDisplay(mouseX, mouseY,100));
+    }
     topiclist.add(x);
+    println(subtops.get(theChosenOne));
+    //subtops.add(new TopicDisplay()); //will be in same place everytime bc no new coordinates, always at 100,100
+    //topiclist.add(x);
       //need a constructor that can take an x and y cor
       //subtops.add(new Topic(mouseX, mouseY))
    }
   else if (key == 's'){
+    println("called");
     Topic x=new Topic();
-    topiclist.get(theChosenOne).addSubtopic(x);
     println(topiclist.get(theChosenOne));
+    topiclist.get(theChosenOne).addSubtopic(x);
+    //println(topiclist.get(theChosenOne));
     //subtops.add(theChosenOne+1,new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],20));
-    subtops.get(theChosenOne).subs.add(new TopicDisplay(topiclist.get(theChosenOne).topLeftCorner()[0], topiclist.get(theChosenOne).topLeftCorner()[1], 100));
+    //opicDisplay dis=new TopicDisplay();
+    //subtops.get(theChosenOne).subs.add(dis);
+    subtops.get(theChosenOne).subs.add(new TopicDisplay(x.topLeftCorner()[0], x.topLeftCorner()[1], 100));
+    println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
     //subtops.get(theChosenOne).subs.add(new TopicDisplay(150, 150, 100));
-    println("CRAZYYY");
-    println(subtops.get(theChosenOne).subs);
-    topiclist.add(theChosenOne+1,x);
+    //println(topiclist.get(theChosenOne).topLeftCorner()[0]+", "+topiclist.get(theChosenOne).topLeftCorner()[1]);
+    //println(subtops.get(theChosenOne).subs);
+    //topiclist.add(theChosenOne+1,x);
     //subtopic
     //when adding a subtopic, what's happening is that a new topic is being added to an arraylist within the main topic
     
@@ -155,7 +169,9 @@ class TopicDisplay {
     len = size;
     selected = false;
   }
-  
+  String toString(){
+    return x+", "+y;
+  }
   void toBeDrawn() {
     if (!this.selected){
       strokeWeight(1);
@@ -166,8 +182,8 @@ class TopicDisplay {
     
     //code to figure out how to position various other sibling or subtopics here
    fill(125);
-   rect(this.x, this.y, len,1);
-   println("something is being drawn");
+   rect(this.x, this.y, len,2);
+   //println("something is being drawn");
    text(label,x,y);
    
   }
