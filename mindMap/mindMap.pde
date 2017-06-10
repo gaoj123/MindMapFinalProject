@@ -79,12 +79,14 @@ void keyPressed(){
           return;
         }
       }
-    }    
-     newLabel += key;
-     if(subtops.get(theChosenOne).selected == true){
-        subtops.get(theChosenOne).label += newLabel;
-        topiclist.get(theChosenOne).mod(newLabel);
-      }
+    }
+    if (key >= ' ' && key <= '?' || key >= 'A' && key <= 'z'){
+       newLabel += key;
+       if(subtops.get(theChosenOne).selected == true){
+          subtops.get(theChosenOne).label += newLabel;
+          topiclist.get(theChosenOne).mod(newLabel);
+        }
+    }
   
     println(newLabel);
   }
