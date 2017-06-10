@@ -23,14 +23,21 @@ void draw() {
 }
   
 void showup(){
+  updateCors();
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
     //println(num);
   }
 }
 
-
-
+void updateCors(){
+  for(int i=0;i<topiclist.size();i++){
+    Topic now=topiclist.get(i);
+    int a=now.topLeftCorner()[0];
+    int b=now.topLeftCorner()[1];
+    subtops.get(i).update(a,b);
+  }
+}
 void mousePressed(){
   //loop to go through every single topic in the arraylist and see if this is the topic that was selected
   for (int num = 0; num < subtops.size(); num++){
@@ -119,6 +126,7 @@ void keyPressed(){
     topiclist.get(theChosenOne).addSibling(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],100));
     topiclist.add(x);
+    println(topiclist.get(theChosenOne));
     //sibling
     /**
     subtops.add(theChosenOne+1, new TopicDisplay(
@@ -153,6 +161,21 @@ class TopicDisplay {
     y = ycor;
     len = size;
     selected = false;
+  }
+  void update(int one, int two){
+    x=one;
+    y=two;
+  }
+  int compareTo(TopicDisplay other){
+    if(this.y<other.y){
+      return -1;
+  }
+  else if(this.y==other.y){
+      return 0;
+  }
+  else{
+      return 1;
+  }
   }
   String toString(){
     return x+", "+y;
