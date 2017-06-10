@@ -23,11 +23,15 @@ void draw() {
 }
   
 void showup(){
+  String str = "KEY, type:"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic";
+  fill(50);
+  text(str, 10, 10, 300, 200);
   updateCors();
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
     //println(num);
   }
+  
 }
 
 void updateCors(){
