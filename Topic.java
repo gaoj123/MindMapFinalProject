@@ -13,14 +13,13 @@ public class Topic implements Comparable<Topic>{
 	}
     }
     ArrayList<Topic> subtopics=new ArrayList<Topic>();
-    Subtopic child=null;
     static ArrayList<Topic> allObjects=new ArrayList<Topic>();
     String text;
     int fontSize;
     // static int topicId=0;
     // static int subtopicId=0;
-    static int widthOfBox=20;
-    int lengthOfBox=30;
+    static int widthOfBox=2;
+    int lengthOfBox=100;
     Topic parent;
     Topic siblingSelected;
     int[] fromParCor=new int[2]; //on left side of rectangle
@@ -35,7 +34,7 @@ public class Topic implements Comparable<Topic>{
     public int[] topLeftCorner(){
 	int[] toRet=new int[2];
 	toRet[0]=leftParCor()[0];
-	toRet[1]=leftParCor()[1]+widthOfBox/2;
+	toRet[1]=leftParCor()[1]-widthOfBox/2;
 	return toRet;
     }
     public int[] vertLine(){
@@ -47,6 +46,12 @@ public class Topic implements Comparable<Topic>{
 	//toRet[3]=parent.botSubCor()[1]-100;
 	toRet[3]=leftParCor()[1];
 	return toRet;
+    }
+    public void mod(String x){
+	text+=x;
+    }
+    public Topic getSub(int index){
+	return subtopics.get(index);
     }
     public int[] horLine(){
 	int[] toRet=new int[4];
@@ -79,7 +84,7 @@ public class Topic implements Comparable<Topic>{
     }
     public void updateBotCor(){
 	toSubCor[0]=leftParCor()[0]+lengthOfBox/2;
-	toSubCor[1]=leftParCor()[1]-widthOfBox/2;
+	toSubCor[1]=leftParCor()[1]+widthOfBox/2;
 	//System.out.println(toSubCor[0]);
 	//System.out.println(toSubCor[1]);
 	
@@ -88,11 +93,15 @@ public class Topic implements Comparable<Topic>{
 	return text+" left : "+leftParCor()[0]+", "+leftParCor()[1]+" bottom: "+botSubCor()[0]+", "+botSubCor()[1];
     }
     public void updateRoot(){
-	parent=null;
-	fromParCor[0]=0;
-	fromParCor[1]=0;
-	toSubCor[0]=lengthOfBox/2;
-	toSubCor[1]=-widthOfBox/2;
+	parent=new Topic();
+	parent.fromParCor[0]=35-lengthOfBox/2;
+	parent.fromParCor[1]=75;
+	parent.toSubCor[0]=35;
+	parent.toSubCor[1]=76; 
+	fromParCor[0]=100;
+	fromParCor[1]=101;
+	toSubCor[0]=100+lengthOfBox/2;
+	toSubCor[1]=101+widthOfBox/2;
 	allObjects.add(this);
     }
     //accessor method returning fromParCor
@@ -109,12 +118,12 @@ public class Topic implements Comparable<Topic>{
 	int toRet=loopThru(x,minYNow);
 	//System.out.println("useless "+toRet);
 	if(continueOrNot(x)){ //if last subtopic has subtopics
-	    //System.out.println("not");
+	    System.out.println("yes "+x);
 	    ArrayList<Topic> sub=x.subtopics;
 	    Topic lastOfSub=sub.get(sub.size()-1);
 	    look(lastOfSub,toRet);
 	}
-	return toRet-100;
+	return toRet+25;
     }
     public boolean continueOrNot(Topic x){
 	boolean toRet=false;
@@ -147,8 +156,8 @@ public class Topic implements Comparable<Topic>{
 	// }
 	//System.out.println("drinks subtopics "+now.size());
 	Topic current=now.get(now.size()-1); //last subtopic
-	//System.out.println("last "+current);
-	//System.out.println("current "+current);
+	System.out.println("last "+current);
+	System.out.println("current "+current);
 	lowY=current.leftParCor()[1];
 	//lowY=current.botSubCor()[1];
 	//returns lowest y-cor (which refers to y-cor of last subtopic)
@@ -161,7 +170,7 @@ public class Topic implements Comparable<Topic>{
 	int lowestYCor=botSubCor()[1];
 	int[] toRet=new int[2];
 	//x-cor is just parent's x-cor shifted 100 to the right
-	toRet[0]=toSubCor[0]+100;
+	toRet[0]=toSubCor[0]+65;
 	if(subtopics.size()>0){
 	    //System.out.println("no");
 	    //for(int i=0;i<subtopics.size();i++){
@@ -171,7 +180,7 @@ public class Topic implements Comparable<Topic>{
 	}
 	else{
 	    //System.out.println("yes");
-	    lowestYCor-=100;
+	    lowestYCor+=25;
 	}
 	toRet[1]=lowestYCor;
 	return toRet;
@@ -196,7 +205,8 @@ public class Topic implements Comparable<Topic>{
 	}
 	else{
 	    //System.out.println("yes");
-	    lowestYCor=this.leftParCor()[1]-100;
+	    // lowestYCor=this.leftParCor()[1]-100;
+	     lowestYCor=this.leftParCor()[1]+25;
 	}
 	toRet[1]=lowestYCor;
 	//toRet[1]=this.leftParCor()[1]-100;
@@ -213,7 +223,9 @@ public class Topic implements Comparable<Topic>{
 	//System.out.println(sibling);
 	this.parent.addSubPlain(sibling);
 	allObjects.add(sibling);
-	updateAll();
+	Collections.sort(this.parent.subtopics);
+	Collections.sort(allObjects);
+	//	updateAll();
 	updateRestOfDiag(sibling.leftParCor()[1],sibling);
 	//System.out.println("parent "+parent+" child"+sibling);
     }
@@ -230,6 +242,8 @@ public class Topic implements Comparable<Topic>{
 	//System.out.println("parent "+this+" child"+children);
 	//updateAll();
         Collections.sort(allObjects);
+	Collections.sort(subtopics);
+	System.out.println("LOOK "+children+children.leftParCor()[1]);
 	updateRestOfDiag(children.leftParCor()[1],children);
 	// if(child==null){
 	//     Subtopic a=new Subtopic(children);
@@ -241,13 +255,13 @@ public class Topic implements Comparable<Topic>{
 	// }
     }
     public void shiftDown(){
-	leftParCor()[1]-=100;
-	botSubCor()[1]-=100;
+	leftParCor()[1]+=25;
+	botSubCor()[1]+=25;
     }
     public void updateRestOfDiag(int base, Topic exclude){
 	//shifts all siblings and topics below it
 	for(Topic a:allObjects){
-	    if(a.leftParCor()[1]-10<=base&&a!=exclude){
+	    if(a.leftParCor()[1]+1>=base&&a!=exclude){
 		//System.out.println(a);
 		a.shiftDown();
 	    }
@@ -260,7 +274,9 @@ public class Topic implements Comparable<Topic>{
 	//--------------------
 	Topic root=new Topic();
 	root.modifyLabel("classes");
+	System.out.println(root);
 	root.updateRoot();
+	System.out.println(root);
 	Topic math=new Topic("math");
 	root.addSubtopic(math);
 	Topic eng=new Topic("english");
@@ -273,9 +289,20 @@ public class Topic implements Comparable<Topic>{
 	fr.addSibling(euro);
 	Topic trig=new Topic("trigonometry");
 	geo.addSibling(trig);
+	for(Topic a:allObjects){
+	    System.out.println(a);
+	    //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
+	}
+	Topic science=new Topic("science");
+	System.out.println("SCIENCE");
+	eng.addSibling(science);
+	Topic sched=new Topic("sched");
+	root.addSibling(sched);
+	
 	//----------------------
 	for(Topic a:allObjects){
 	    System.out.println(a);
+	    //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
 	}
 	// Topic root=new Topic();
 	// //if we instantiate empty topic, we'll just follow with modifyLabel (line below)
