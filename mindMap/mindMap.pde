@@ -102,16 +102,16 @@ void keyPressed(){
     }   
     else{
       subtops.add(new TopicDisplay(mouseX, mouseY,100));
+      println("X :"+mouseX+" Y"+mouseY);
     }
     topiclist.add(x);
-    println(subtops.get(theChosenOne));
+    //println(subtops.get(theChosenOne));
     //subtops.add(new TopicDisplay()); //will be in same place everytime bc no new coordinates, always at 100,100
     //topiclist.add(x);
       //need a constructor that can take an x and y cor
       //subtops.add(new Topic(mouseX, mouseY))
    }
   else if (key == 's'){
-    println("called");
     Topic x=new Topic();
     println(topiclist.get(theChosenOne));
     topiclist.get(theChosenOne).addSubtopic(x);
@@ -120,7 +120,10 @@ void keyPressed(){
     //opicDisplay dis=new TopicDisplay();
     //subtops.get(theChosenOne).subs.add(dis);
     subtops.get(theChosenOne).subs.add(new TopicDisplay(x.topLeftCorner()[0], x.topLeftCorner()[1], 100));
+    theChosenOneSub=subtops.get(theChosenOne).subs.size()-1;
     println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
+    println("PARENT "+subtops.get(theChosenOne));
+    println("ME "+subtops.get(theChosenOne).subs.get(theChosenOneSub));
     //subtops.get(theChosenOne).subs.add(new TopicDisplay(150, 150, 100));
     //println(topiclist.get(theChosenOne).topLeftCorner()[0]+", "+topiclist.get(theChosenOne).topLeftCorner()[1]);
     //println(subtops.get(theChosenOne).subs);
