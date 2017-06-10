@@ -16,6 +16,7 @@ public class Topic implements Comparable<Topic>{
     static ArrayList<Topic> allObjects=new ArrayList<Topic>();
     String text;
     int fontSize;
+    boolean isRoot=false;
     // static int topicId=0;
     // static int subtopicId=0;
     static int widthOfBox=2;
@@ -93,7 +94,9 @@ public class Topic implements Comparable<Topic>{
 	return text+" left : "+leftParCor()[0]+", "+leftParCor()[1]+" bottom: "+botSubCor()[0]+", "+botSubCor()[1];
     }
     public void updateRoot(){
+	isRoot=true;
 	parent=new Topic();
+	parent.isRoot=true;
 	parent.fromParCor[0]=35-lengthOfBox/2;
 	parent.fromParCor[1]=75;
 	parent.toSubCor[0]=35;
@@ -102,7 +105,43 @@ public class Topic implements Comparable<Topic>{
 	fromParCor[1]=101;
 	toSubCor[0]=100+lengthOfBox/2;
 	toSubCor[1]=101+widthOfBox/2;
+	parent.subtopics.add(this);
 	allObjects.add(this);
+    }
+    public boolean isRoot(){
+	return isRoot;
+    }
+    public void subHelper(Topic x, boolean stop){
+	if(x.isRoot()==true){
+	    stop=true;
+	}
+	Topic y=x.parent;
+	int ind=y.subtopics.indexOf(x);
+	for(int i=ind+1;i<y.subtopics.size();i++){
+	    y.getSub(i).shiftDown();
+	}
+	if(!stop){
+	    subHelper(y,false);
+	}
+    }
+    public void updateSubtopic(){
+	subHelper(this,false);
+    }
+    public void updateSib(){
+	subHelper2(this,false);
+    }
+    public void subHelper2(Topic one, boolean stop){
+	Topic x=one.parent;
+	if(x.isRoot()==true||one.isRoot()==true){
+	    stop=true;
+	}
+	int ind=x.subtopics.indexOf(one);
+	for(int i=ind+1;i<x.subtopics.size();i++){
+	    x.getSub(i).shiftDown();
+	}
+	if(!stop){
+	    subHelper2(x,false);
+	}
     }
     //accessor method returning fromParCor
     public int[] leftParCor(){
@@ -121,8 +160,10 @@ public class Topic implements Comparable<Topic>{
 	    System.out.println("yes "+x);
 	    ArrayList<Topic> sub=x.subtopics;
 	    Topic lastOfSub=sub.get(sub.size()-1);
-	    look(lastOfSub,toRet);
+	    return look(lastOfSub,toRet);
 	}
+	System.out.println(toRet);
+	System.out.println(toRet+25);
 	return toRet+25;
     }
     public boolean continueOrNot(Topic x){
@@ -158,6 +199,7 @@ public class Topic implements Comparable<Topic>{
 	Topic current=now.get(now.size()-1); //last subtopic
 	System.out.println("last "+current);
 	System.out.println("current "+current);
+	System.out.println(current.leftParCor()[1]);
 	lowY=current.leftParCor()[1];
 	//lowY=current.botSubCor()[1];
 	//returns lowest y-cor (which refers to y-cor of last subtopic)
@@ -206,7 +248,10 @@ public class Topic implements Comparable<Topic>{
 	else{
 	    //System.out.println("yes");
 	    // lowestYCor=this.leftParCor()[1]-100;
-	     lowestYCor=this.leftParCor()[1]+25;
+	    Topic par=this.parent;
+	    Topic last=par.getSub(par.subtopics.size()-1);
+	    lowestYCor=last.leftParCor()[1]+25;
+	    //lowestYCor=this.leftParCor()[1]+25;
 	}
 	toRet[1]=lowestYCor;
 	//toRet[1]=this.leftParCor()[1]-100;
@@ -223,10 +268,11 @@ public class Topic implements Comparable<Topic>{
 	//System.out.println(sibling);
 	this.parent.addSubPlain(sibling);
 	allObjects.add(sibling);
+	sibling.updateSib();
 	Collections.sort(this.parent.subtopics);
 	Collections.sort(allObjects);
 	//	updateAll();
-	updateRestOfDiag(sibling.leftParCor()[1],sibling);
+	//updateRestOfDiag(sibling.leftParCor()[1],sibling);
 	//System.out.println("parent "+parent+" child"+sibling);
     }
     public void addSubPlain(Topic children){
@@ -239,12 +285,14 @@ public class Topic implements Comparable<Topic>{
 	children.updateBotCor();
 	subtopics.add(children);
 	allObjects.add(children);
+	this.updateSubtopic();
 	//System.out.println("parent "+this+" child"+children);
 	//updateAll();
         Collections.sort(allObjects);
 	Collections.sort(subtopics);
 	System.out.println("LOOK "+children+children.leftParCor()[1]);
-	updateRestOfDiag(children.leftParCor()[1],children);
+	//this.updateSubtopic();
+	//updateRestOfDiag(children.leftParCor()[1],children);
 	// if(child==null){
 	//     Subtopic a=new Subtopic(children);
 	//     child=a;
@@ -257,48 +305,61 @@ public class Topic implements Comparable<Topic>{
     public void shiftDown(){
 	leftParCor()[1]+=25;
 	botSubCor()[1]+=25;
-    }
-    public void updateRestOfDiag(int base, Topic exclude){
-	//shifts all siblings and topics below it
-	for(Topic a:allObjects){
-	    if(a.leftParCor()[1]+1>=base&&a!=exclude){
-		//System.out.println(a);
-		a.shiftDown();
+	if(this.subtopics.size()!=0){
+	    for(int i=0;i<subtopics.size();i++){
+		subtopics.get(i).shiftDown();
 	    }
 	}
-	// for(Topic a:allObjects){
-	//     System.out.println(a);
-	// }
     }
+    // public void updateRestOfDiag(int base, Topic exclude){
+    // 	//shifts all siblings and topics below it
+    // 	for(Topic a:allObjects){
+    // 	    if(a.leftParCor()[1]+1>=base&&a!=exclude){
+    // 		//System.out.println(a);
+    // 		a.shiftDown();
+    // 	    }
+    // 	}
+    // 	// for(Topic a:allObjects){
+    // 	//     System.out.println(a);
+    // 	// }
+    // }
     public static void main(String[] args){
 	//--------------------
 	Topic root=new Topic();
 	root.modifyLabel("classes");
 	System.out.println(root);
 	root.updateRoot();
-	System.out.println(root);
-	Topic math=new Topic("math");
-	root.addSubtopic(math);
-	Topic eng=new Topic("english");
-	root.addSubtopic(eng);
-	Topic geo=new Topic("geometry");
-	math.addSubtopic(geo);
-	Topic fr=new Topic("freshman comp");
-	eng.addSubtopic(fr);
-	Topic euro=new Topic("euro lit");
-	fr.addSibling(euro);
-	Topic trig=new Topic("trigonometry");
-	geo.addSibling(trig);
-	for(Topic a:allObjects){
-	    System.out.println(a);
-	    //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
-	}
-	Topic science=new Topic("science");
-	System.out.println("SCIENCE");
-	eng.addSibling(science);
-	Topic sched=new Topic("sched");
+	// System.out.println(root);
+	// Topic math=new Topic("math");
+	// root.addSubtopic(math);
+	// //Topic eng=new Topic("english");
+	// Topic precalc=new Topic("precalc");
+	// math.addSubtopic(precalc);
+	// Topic eng=new Topic("english");
+	// root.addSubtopic(eng);
+	// Topic geo=new Topic("geometry");
+	// math.addSubtopic(geo);
+	// Topic fr=new Topic("freshman comp");
+	// eng.addSubtopic(fr);
+	// Topic euro=new Topic("euro lit");
+	// fr.addSibling(euro);
+	// Topic ap=new Topic("ap");
+	// euro.addSibling(ap);
+	// Topic trig=new Topic("trigonometry");
+	// geo.addSibling(trig);
+	// Topic calc=new Topic("calc");
+	// geo.addSibling(calc);
+	// // for(Topic a:allObjects){
+	// //     System.out.println(a);
+	// //     //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
+	// // }
+	// Topic science=new Topic("science");
+	// System.out.println("SCIENCE");
+	// root.addSubtopic(science);
+	 Topic sched=new Topic("sched");
 	root.addSibling(sched);
-	
+	Topic hr=new Topic("homeroom");
+        root.addSibling(hr);
 	//----------------------
 	for(Topic a:allObjects){
 	    System.out.println(a);
