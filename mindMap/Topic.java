@@ -31,12 +31,6 @@ public class Topic implements Comparable<Topic>{
     public Topic(String x){
   text=x;
     }
-    public void mod(String x){
-      text+=x;
-    }
-    public Topic getSub(int index){
-      return subtopics.get(index);
-    }
     public int[] topLeftCorner(){
   int[] toRet=new int[2];
   toRet[0]=leftParCor()[0];
@@ -52,6 +46,12 @@ public class Topic implements Comparable<Topic>{
   //toRet[3]=parent.botSubCor()[1]-100;
   toRet[3]=leftParCor()[1];
   return toRet;
+    }
+    public void mod(String x){
+  text+=x;
+    }
+    public Topic getSub(int index){
+  return subtopics.get(index);
     }
     public int[] horLine(){
   int[] toRet=new int[4];
@@ -93,7 +93,11 @@ public class Topic implements Comparable<Topic>{
   return text+" left : "+leftParCor()[0]+", "+leftParCor()[1]+" bottom: "+botSubCor()[0]+", "+botSubCor()[1];
     }
     public void updateRoot(){
-  parent=null;
+  parent=new Topic();
+  parent.fromParCor[0]=35-lengthOfBox/2;
+  parent.fromParCor[1]=75;
+  parent.toSubCor[0]=35;
+  parent.toSubCor[1]=76; 
   fromParCor[0]=100;
   fromParCor[1]=101;
   toSubCor[0]=100+lengthOfBox/2;
@@ -152,8 +156,8 @@ public class Topic implements Comparable<Topic>{
   // }
   //System.out.println("drinks subtopics "+now.size());
   Topic current=now.get(now.size()-1); //last subtopic
-  //System.out.println("last "+current);
-  //System.out.println("current "+current);
+  System.out.println("last "+current);
+  System.out.println("current "+current);
   lowY=current.leftParCor()[1];
   //lowY=current.botSubCor()[1];
   //returns lowest y-cor (which refers to y-cor of last subtopic)
@@ -166,7 +170,7 @@ public class Topic implements Comparable<Topic>{
   int lowestYCor=botSubCor()[1];
   int[] toRet=new int[2];
   //x-cor is just parent's x-cor shifted 100 to the right
-  toRet[0]=toSubCor[0]+30;
+  toRet[0]=toSubCor[0]+65;
   if(subtopics.size()>0){
       //System.out.println("no");
       //for(int i=0;i<subtopics.size();i++){
@@ -219,6 +223,8 @@ public class Topic implements Comparable<Topic>{
   //System.out.println(sibling);
   this.parent.addSubPlain(sibling);
   allObjects.add(sibling);
+  Collections.sort(this.parent.subtopics);
+  Collections.sort(allObjects);
   //  updateAll();
   updateRestOfDiag(sibling.leftParCor()[1],sibling);
   //System.out.println("parent "+parent+" child"+sibling);
@@ -235,8 +241,9 @@ public class Topic implements Comparable<Topic>{
   allObjects.add(children);
   //System.out.println("parent "+this+" child"+children);
   //updateAll();
-        //Collections.sort(allObjects);
-  //System.out.println("LOOK "+children+children.leftParCor()[1]);
+        Collections.sort(allObjects);
+  Collections.sort(subtopics);
+  System.out.println("LOOK "+children+children.leftParCor()[1]);
   updateRestOfDiag(children.leftParCor()[1],children);
   // if(child==null){
   //     Subtopic a=new Subtopic(children);
@@ -254,7 +261,7 @@ public class Topic implements Comparable<Topic>{
     public void updateRestOfDiag(int base, Topic exclude){
   //shifts all siblings and topics below it
   for(Topic a:allObjects){
-      if(a.leftParCor()[1]+10>=base&&a!=exclude){
+      if(a.leftParCor()[1]+1>=base&&a!=exclude){
     //System.out.println(a);
     a.shiftDown();
       }
@@ -265,36 +272,38 @@ public class Topic implements Comparable<Topic>{
     }
     public static void main(String[] args){
   //--------------------
-  //Topic root=new Topic();
-  //root.modifyLabel("classes");
-  //System.out.println(root);
-  //root.updateRoot();
-  //System.out.println(root);
-  //Topic math=new Topic("math");
-  //root.addSubtopic(math);
-  //Topic eng=new Topic("english");
-  //root.addSubtopic(eng);
-  //Topic geo=new Topic("geometry");
-  //math.addSubtopic(geo);
-  //Topic fr=new Topic("freshman comp");
-  //eng.addSubtopic(fr);
-  //Topic euro=new Topic("euro lit");
-  //fr.addSibling(euro);
-  //Topic trig=new Topic("trigonometry");
-  //geo.addSibling(trig);
-  //for(Topic a:allObjects){
-  //    System.out.println(a);
-  //    //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
-  //}
-  //Topic science=new Topic("science");
-  //System.out.println("SCIENCE");
-  //root.addSubtopic(science);
+  Topic root=new Topic();
+  root.modifyLabel("classes");
+  System.out.println(root);
+  root.updateRoot();
+  System.out.println(root);
+  Topic math=new Topic("math");
+  root.addSubtopic(math);
+  Topic eng=new Topic("english");
+  root.addSubtopic(eng);
+  Topic geo=new Topic("geometry");
+  math.addSubtopic(geo);
+  Topic fr=new Topic("freshman comp");
+  eng.addSubtopic(fr);
+  Topic euro=new Topic("euro lit");
+  fr.addSibling(euro);
+  Topic trig=new Topic("trigonometry");
+  geo.addSibling(trig);
+  for(Topic a:allObjects){
+      System.out.println(a);
+      //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
+  }
+  Topic science=new Topic("science");
+  System.out.println("SCIENCE");
+  eng.addSibling(science);
+  Topic sched=new Topic("sched");
+  root.addSibling(sched);
   
   //----------------------
-  //for(Topic a:allObjects){
-  //    System.out.println(a);
-  //    //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
-  //}
+  for(Topic a:allObjects){
+      System.out.println(a);
+      //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
+  }
   // Topic root=new Topic();
   // //if we instantiate empty topic, we'll just follow with modifyLabel (line below)
   // root.modifyLabel("food");
