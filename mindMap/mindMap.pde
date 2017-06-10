@@ -23,7 +23,7 @@ void draw() {
 }
   
 void showup(){
-  String str = "KEY, type:"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic";
+  String str = "KEY, type:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic";
   fill(50);
   text(str, 10, 10, 300, 200);
   updateCors();
@@ -70,11 +70,22 @@ void keyPressed(){
   if (setLabel){
     String newLabel = "";
     //change the text of the selected topic
-    newLabel += key;
-   if(subtops.get(theChosenOne).selected == true){
-      subtops.get(theChosenOne).label += newLabel;
-      topiclist.get(theChosenOne).mod(newLabel);
-    }
+    if (key == BACKSPACE){
+      if(subtops.get(theChosenOne).selected == true){
+        if (subtops.get(theChosenOne).label.length() > 0){
+          newLabel = subtops.get(theChosenOne).label.substring(0,subtops.get(theChosenOne).label.length()-1);
+          subtops.get(theChosenOne).label = newLabel;
+          topiclist.get(theChosenOne).mod(newLabel);
+          return;
+        }
+      }
+    }    
+     newLabel += key;
+     if(subtops.get(theChosenOne).selected == true){
+        subtops.get(theChosenOne).label += newLabel;
+        topiclist.get(theChosenOne).mod(newLabel);
+      }
+  
     println(newLabel);
   }
   if (key == 'f'&&setLabel==false){
