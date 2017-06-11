@@ -116,8 +116,8 @@ public class Topic implements Comparable<Topic>{
   parent.fromParCor[1]=75;
   parent.toSubCor[0]=35;
   parent.toSubCor[1]=76; 
-  fromParCor[0]=100;
-  fromParCor[1]=101;
+  //fromParCor[0]=100;
+  //fromParCor[1]=101;
   toSubCor[0]=100+lengthOfBox/2;
   toSubCor[1]=101+widthOfBox/2;
   parent.subtopics.add(this);
