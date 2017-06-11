@@ -22,7 +22,7 @@ void draw() {
 }
   
 void showup(){
-  String str = "KEY, type:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic";
+  String str = "KEY, hit:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic" +"\n"+"RETURN to unselect";
   fill(50);
   text(str, 10, 10, 300, 200);
   updateCors();
@@ -45,6 +45,7 @@ void mousePressed(){
   //loop to go through every single topic in the arraylist and see if this is the topic that was selected
   for (int num = 0; num < subtops.size(); num++){
     TopicDisplay check = subtops.get(num);
+    println(check);
     //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
     if (check.len > dist(mouseX, mouseY, check.x, check.y)){
       //if this was the selected topic, set the topic's selected boolean to be true
@@ -114,34 +115,17 @@ void keyPressed(){
     Topic x=new Topic();
     println(topiclist.get(theChosenOne));
     topiclist.get(theChosenOne).addSubtopic(x);
-    //println(topiclist.get(theChosenOne));
-    //subtops.add(theChosenOne+1,new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],20));
-    //opicDisplay dis=new TopicDisplay();
-    //subtops.get(theChosenOne).subs.add(dis);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0], x.topLeftCorner()[1], 100));
-    //subtops.get(theChosenOne).subs.add(new TopicDisplay(x.topLeftCorner()[0], x.topLeftCorner()[1], 100));
     topiclist.add(x);
-    //theChosenOneSub=subtops.get(theChosenOne).subs.size()-1;
     println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
-    //println("PARENT "+subtops.get(theChosenOne));
-    //if(theChosenOneSub!=-1){
-     // println("ME "+subtops.get(theChosenOne).subs.get(theChosenOneSub));
-    //}
-    //else{
-      //println("ME "+subtops.get(theChosenOne));
-    //}
-    //subtops.get(theChosenOne).subs.add(new TopicDisplay(150, 150, 100));
-    //println(topiclist.get(theChosenOne).topLeftCorner()[0]+", "+topiclist.get(theChosenOne).topLeftCorner()[1]);
-    //println(subtops.get(theChosenOne).subs);
-    //topiclist.add(theChosenOne+1,x);
-    //subtopic
-    //when adding a subtopic, what's happening is that a new topic is being added to an arraylist within the main topic
     
   }
   else if (key == 'z'&&setLabel==false){
     Topic x=new Topic();
     topiclist.get(theChosenOne).addSibling(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],100));
+    println(subtops.get(subtops.size()-1));
+    println("new sib coords:"+subtops.get(theChosenOne + 1));
     topiclist.add(x);
     println(topiclist.get(theChosenOne));
     //sibling
