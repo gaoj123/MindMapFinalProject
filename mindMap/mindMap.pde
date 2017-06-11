@@ -6,7 +6,6 @@ ArrayList<TopicDisplay> subtops=new ArrayList<TopicDisplay>(10);
 ArrayList<Topic> topiclist = new ArrayList<Topic>(10);
 boolean setLabel = false;
 int theChosenOne;
-int theChosenOneSub = -1;
 void setup() {
   size(750,400);
   
@@ -102,6 +101,7 @@ void keyPressed(){
     else{
       subtops.add(new TopicDisplay(mouseX, mouseY,100));
       println("X :"+mouseX+" Y"+mouseY);
+      x=new Topic(mouseX,mouseY);
     }
     topiclist.add(x);
     //println(subtops.get(theChosenOne));
