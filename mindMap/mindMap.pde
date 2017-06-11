@@ -75,11 +75,11 @@ void keyPressed(){
   }
   if (key == 'f'&&setLabel==false){
     Topic x=new Topic();
-    println(topiclist.size());
+    //println(topiclist.size());
     if(topiclist.size()==0){
-      println("ROOT");
+      //println("ROOT");
       x.updateRoot();
-      println(topiclist.size());
+      //println(topiclist.size());
       subtops.add(new TopicDisplay());
     }   
     else{
