@@ -8,11 +8,12 @@ boolean setLabel = false;
 int theChosenOne;
 void setup() {
   size(750,400);
-  
+  /**
   for (int num = 0; num < subtops.size(); num++){
     subtops.add(num, new TopicDisplay(100,100,100));
     topiclist.add(num, new Topic(subtops.get(num).label));
   }
+  **/
   
 }
 
@@ -92,7 +93,8 @@ void keyPressed(){
     println(newLabel);
   }
   if (key == 'f'&&setLabel==false){
-    Topic x=new Topic();
+    Topic x=new Topic(mouseX,mouseY);
+    println("mouseX: " +mouseX+" mouseY: "+mouseY);
     //println(topiclist.size());
     if(topiclist.size()==0){
       //println("ROOT");
@@ -152,8 +154,8 @@ class TopicDisplay {
   ArrayList<TopicDisplay> subs=new ArrayList<TopicDisplay>();
   
   TopicDisplay(){
-    x = 100;
-    y = 100;
+    x = 300;
+    y = 300;
     len = 100;
     selected = false;
   }
