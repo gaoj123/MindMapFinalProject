@@ -253,16 +253,23 @@ class TopicFileStream{
       out = new ObjectOutputStream(file);
       println("doing stuff");
       //out.writeObject(l);
+      
       for( TopicDisplay t : l){
+        println(t);
         out.writeObject(t);
       }
+      
+      
+      //out.writeObject(l);
+      out.close();
+      println("done");
     }
    
     catch (IOException e){
       println("Error opening");
     }
     
-    finally{
+    /**finally{
       try{
         if (out != null){
           out.close();
@@ -272,6 +279,7 @@ class TopicFileStream{
         println("Error closing");
       }
     }
+    **/
   }
   
   ArrayList<TopicDisplay> read(String filename){
@@ -279,7 +287,7 @@ class TopicFileStream{
     ObjectInputStream in = null;
     try{
       //in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
-      in = new ObjectInputStream(new FileInputStream("try.txt"));
+      in = new ObjectInputStream(new FileInputStream("default.ser"));
       while(true){
         TopicDisplay t = (TopicDisplay) in.readObject();
         l2.add(t);
