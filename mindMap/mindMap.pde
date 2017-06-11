@@ -1,27 +1,48 @@
 import controlP5.*;
 import java.awt.*;
+import java.io.*;
 ControlP5 cp5;
 
 ArrayList<TopicDisplay> subtops=new ArrayList<TopicDisplay>(10);
 ArrayList<Topic> topiclist = new ArrayList<Topic>(10);
 boolean setLabel = false;
 int theChosenOne;
+String filen = "default";
+boolean typefilename = false;
 void setup() {
-  size(750,400);
-  /**
-  for (int num = 0; num < subtops.size(); num++){
-    subtops.add(num, new TopicDisplay(100,100,100));
-    topiclist.add(num, new Topic(subtops.get(num).label));
+  size(800,800);
+  cp5 = new ControlP5(this);
+  cp5.addButton("save")
+    .setValue(0)
+    .setPosition(10,100)
+    .setSize(50,10)
+    ;
+  cp5.addTextfield("Filename")
+    .setPosition(10,120)
+    .setSize(100,20)
+    .setFocus(true)
+    .setColor(color(255,0,0))
+    ;
+}
+
+void controlEvent(ControlEvent e){
+  typefilename = true;
+  if (e.isAssignableFrom(Textfield.class)){
+    filen = e.getStringValue();
   }
-  **/
-  
+}
+    
+void save(int val){
+  println(filen);
+  TopicFileStream tfs = new TopicFileStream();
+  tfs.write(subtops, filen);
 }
 
 void draw() {
   background(250);
   showup();
 }
-  
+
 void showup(){
   String str = "KEY, hit:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic" +"\n"+"RETURN to deselect";
   fill(50);
@@ -29,16 +50,12 @@ void showup(){
   updateCors();
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
-    //if(!topiclist.get(num).isRoot()){
-    //  drawLines(topiclist.get(num));
-    //}
     if(topiclist.get(num).parent.isParPar()&&!topiclist.get(num).isRoot()){
       draw2(topiclist.get(num));
     }
     else{
       drawLines(topiclist.get(num));
     }
-    //println(num);
   }
   
 }
@@ -84,7 +101,7 @@ void mousePressed(){
 }
 void keyPressed(){
   showup();
-  if (key == ENTER){
+  if (key == ENTER&&typefilename==false){
     setLabel = false;
     subtops.get(theChosenOne).selected = false;
     println("no longer performing any action");
@@ -114,29 +131,19 @@ void keyPressed(){
   
     println(newLabel);
   }
-  if (key == 'f'&&setLabel==false){
+  if (key == 'f'&&setLabel==false&&typefilename==false){
     Topic x=new Topic(mouseX,mouseY);
     println("mouseX: " +mouseX+" mouseY: "+mouseY);
-    //println(topiclist.size());
     if(topiclist.size()==0){
-      //println("ROOT");
-      //x.updateRoot();
-      //println(topiclist.size());
       subtops.add(new TopicDisplay(mouseX,mouseY,100));
     }   
     else{
       subtops.add(new TopicDisplay(mouseX, mouseY,100));
       println("X :"+mouseX+" Y"+mouseY);
-      //x=new Topic(mouseX,mouseY);
     }
     topiclist.add(x);
-    //println(subtops.get(theChosenOne));
-    //subtops.add(new TopicDisplay()); //will be in same place everytime bc no new coordinates, always at 100,100
-    //topiclist.add(x);
-      //need a constructor that can take an x and y cor
-      //subtops.add(new Topic(mouseX, mouseY))
    }
-  else if (key == 's'&&setLabel==false){
+  else if (key == 's'&&setLabel==false&&typefilename == false){
     Topic x=new Topic();
     println(topiclist.get(theChosenOne));
     topiclist.get(theChosenOne).addSubtopic(x);
@@ -145,7 +152,7 @@ void keyPressed(){
     println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
     
   }
-  else if (key == 'z'&&setLabel==false){
+  else if (key == 'z'&&setLabel==false&&typefilename == false){
     Topic x=new Topic();
     topiclist.get(theChosenOne).addSibling(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],100));
@@ -154,19 +161,15 @@ void keyPressed(){
     topiclist.add(x);
     println(topiclist.get(theChosenOne));
     //sibling
-    /**
-    subtops.add(theChosenOne+1, new TopicDisplay(
-    topiclist.add(theChosenOne+1, new Topic( 
-    **/
   }
-  else if(key == 'w'){
+  else if(key == 'w' && typefilename==false){
      setLabel = true;
      println("change to writing mode");
   }
   
 }
     
-class TopicDisplay {
+class TopicDisplay implements Serializable{
   String label =""; // label
   int x;      // top left corner x position
   int y;      // top left corner y position
@@ -214,10 +217,8 @@ class TopicDisplay {
       strokeWeight(3);
     }
     
-    //code to figure out how to position various other sibling or subtopics here
    fill(125);
    rect(this.x, this.y, len,2);
-   //println("something is being drawn");
    text(label,x,y);
    
   }
@@ -226,4 +227,61 @@ class TopicDisplay {
     //if this is not a floating topic, draw two lines, to the right and above to connect to previous topic
   }
  
+}
+
+class TopicFileStream{
+  void write(ArrayList<TopicDisplay> l, String filename){
+    println("attempting to serialize");
+    ObjectOutputStream out = null;
+    try{
+      out = new ObjectOutputStream(new FileOutputStream("createdMaps/"+filename+".ser"));
+      for( TopicDisplay t : l){
+        out.writeObject(t);
+      }
+    }
+   
+    catch (IOException e){
+      println("Error opening");
+    }
+    
+    finally{
+      try{
+        if (out != null){
+          out.close();
+        }
+      }
+      catch(IOException e){
+        println("Error closing");
+      }
+    }
+  }
+  
+  ArrayList<TopicDisplay> read(String filename){
+    ArrayList<TopicDisplay> l2 = new ArrayList<TopicDisplay>();
+    ObjectInputStream in = null;
+    try{
+      in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
+      while(true){
+        TopicDisplay t = (TopicDisplay) in.readObject();
+        l2.add(t);
+      }
+    }
+    catch(ClassNotFoundException e){
+      println("fail");
+    }
+    catch(IOException e){
+      println("Error opening");
+    }
+    finally{
+      try{
+        if (in != null){
+          in.close();
+        }
+      }
+      catch(IOException e){
+        println("Error closing");
+      }
+    }
+    return l2;
+  }
 }
