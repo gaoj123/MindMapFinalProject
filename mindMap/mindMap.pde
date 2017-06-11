@@ -23,6 +23,8 @@ void setup() {
     .setFocus(true)
     .setColor(color(255,0,0))
     ;
+  TopicFileStream fs = new TopicFileStream();
+  fs.write(subtops, "test");
 }
 
 void controlEvent(ControlEvent e){
@@ -233,8 +235,12 @@ class TopicFileStream{
   void write(ArrayList<TopicDisplay> l, String filename){
     println("attempting to serialize");
     ObjectOutputStream out = null;
+    println("stuff");
     try{
-      out = new ObjectOutputStream(new FileOutputStream("createdMaps/"+filename+".ser"));
+      FileOutputStream file = new FileOutputStream("/createdMaps/"+filename+".ser");
+      println("more stuff");
+      out = new ObjectOutputStream(file);
+      println("doing stuff");
       for( TopicDisplay t : l){
         out.writeObject(t);
       }
