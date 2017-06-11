@@ -37,13 +37,12 @@ public class Topic implements Comparable<Topic>{
   topLeftCorner()[0]=xcor;
   topLeftCorner()[1]=ycor;
   updateLeftRightEtc();
-  allObjects.add(this);
     }
     public void updateLeftRightEtc(){
-  fromParCor[0]=topLeftCorner()[0];
-  fromParCor[1]=topLeftCorner()[1]+widthOfBox/2;
-  toSubCor[0]=leftParCor()[0]+lengthOfBox/2;
-  toSubCor[1]=leftParCor()[1]+widthOfBox/2;
+  leftParCor()[0]=topLeftCorner()[0];
+  leftParCor()[1]=topLeftCorner()[1]+widthOfBox/2;
+  botSubCor()[0]=leftParCor()[0]+lengthOfBox/2;
+  botSubCor()[1]=leftParCor()[1]+widthOfBox/2;
     }
     public int[] topLeftCorner(){
   int[] toRet=new int[2];
@@ -155,6 +154,17 @@ public class Topic implements Comparable<Topic>{
       stop=true;
   }
   int ind=x.subtopics.indexOf(one);
+  System.out.println(ind);
+  // if(ind-1>=0){
+  //     if(x.getSub(ind-1).leftParCor()[1]==one.leftParCor()[1]){
+  //   x.getSub(ind-1).shiftDown();
+  //     }
+  // }
+  // for(int i=0;i<x.subtopics.size();i++){
+  //     if(x.getSub(i).leftParCor()[1]==one.leftParCor()[1]&&x.getSub(i)!=one){
+  //   x.getSub(i).shiftDown();
+  //     }
+  // }
   for(int i=ind+1;i<x.subtopics.size();i++){
       x.getSub(i).shiftDown();
   }
@@ -266,16 +276,19 @@ public class Topic implements Comparable<Topic>{
   }
   else{
       //System.out.println("yes");
-      // lowestYCor=this.leftParCor()[1]-100;
-      Topic par=this.parent;
-      Topic last=par.getSub(par.subtopics.size()-1);
-      lowestYCor=last.leftParCor()[1]+25;
-      //lowestYCor=this.leftParCor()[1]+25;
+      //lowestYCor=this.leftParCor()[1]-100;
+      //Topic par=this.parent;
+      //Topic last=par.getSub(par.subtopics.size()-1);
+      //lowestYCor=last.leftParCor()[1]+25;
+      lowestYCor=this.leftParCor()[1]+25;
   }
   toRet[1]=lowestYCor;
   //toRet[1]=this.leftParCor()[1]-100;
   //System.out.println("eh");
   return toRet;
+    }
+    public void addSubInt(int index, Topic children){
+  subtopics.add(index,children);
     }
     public void addSibling(Topic sibling){
   //"this" refers to sibling selected. call like this: siblingSelected.addSibling(Topic sibling) so siblingSelected and sibling will be on same level
@@ -285,7 +298,9 @@ public class Topic implements Comparable<Topic>{
   sibling.updateBotCor();
   //System.out.println(parent);
   //System.out.println(sibling);
-  this.parent.addSubPlain(sibling);
+  int ind=parent.subtopics.indexOf(this);
+  this.parent.addSubInt(ind+1,sibling);
+  //this.parent.addSubPlain(sibling);
   allObjects.add(sibling);
   sibling.updateSib();
   Collections.sort(this.parent.subtopics);
@@ -349,8 +364,8 @@ public class Topic implements Comparable<Topic>{
   System.out.println(root);
   root.updateRoot();
   // System.out.println(root);
-  Topic math=new Topic("math");
-  root.addSubtopic(math);
+  //Topic math=new Topic("math");
+  //root.addSubtopic(math);
   // //Topic eng=new Topic("english");
   // Topic precalc=new Topic("precalc");
   // math.addSubtopic(precalc);
@@ -379,13 +394,20 @@ public class Topic implements Comparable<Topic>{
   root.addSibling(sched);
   Topic hr=new Topic("homeroom");
   root.addSibling(hr);
-  Topic history=new Topic("history");
-  math.addSibling(history);
+  //Topic history=new Topic("history");
+  //math.addSibling(history);
+  Topic locker=new Topic("locker");
+  root.addSibling(locker);
+  Topic ais=new Topic("ais");
+  root.addSibling(ais);
   //----------------------
   for(Topic a:allObjects){
       System.out.println(a);
       //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
   }
+  // for(int i=0;i<root.parent.subtopics.size();i++){
+  //     System.out.println(root.parent.getSub(i));
+  // }
   // Topic root=new Topic();
   // //if we instantiate empty topic, we'll just follow with modifyLabel (line below)
   // root.modifyLabel("food");
