@@ -49,7 +49,8 @@ void mousePressed(){
     println(check);
     println("mouseX:"+mouseX+" mouseY:"+mouseY);
     //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
-    if ( mouseX > check.x && mouseX < check.x + check.len && (mouseY >= check.y - 5 && mouseY <= check.y +5)){
+    if ( mouseX > check.x && mouseX < check.x + check.len && (mouseY >= check.y - 5 && mouseY 
+<= check.y +5)){
       //if this was the selected topic, set the topic's selected boolean to be true
       subtops.get(num).selected = true;
       theChosenOne = num;
@@ -75,7 +76,8 @@ void keyPressed(){
     if (key == BACKSPACE){
       if(subtops.get(theChosenOne).selected == true){
         if (subtops.get(theChosenOne).label.length() > 0){
-          newLabel = subtops.get(theChosenOne).label.substring(0,subtops.get(theChosenOne).label.length()-1);
+          newLabel = subtops.get(theChosenOne).label.substring(0,subtops.get
+(theChosenOne).label.length()-1);
           subtops.get(theChosenOne).label = newLabel;
           topiclist.get(theChosenOne).mod(newLabel);
           return;
@@ -98,14 +100,14 @@ void keyPressed(){
     //println(topiclist.size());
     if(topiclist.size()==0){
       //println("ROOT");
-      x.updateRoot();
+      //x.updateRoot();
       //println(topiclist.size());
-      subtops.add(new TopicDisplay());
+      subtops.add(new TopicDisplay(mouseX,mouseY,100));
     }   
     else{
       subtops.add(new TopicDisplay(mouseX, mouseY,100));
       println("X :"+mouseX+" Y"+mouseY);
-      x=new Topic(mouseX,mouseY);
+      //x=new Topic(mouseX,mouseY);
     }
     topiclist.add(x);
     //println(subtops.get(theChosenOne));
