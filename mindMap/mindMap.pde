@@ -13,19 +13,20 @@ void setup() {
   size(800,800);
   /**
   cp5 = new ControlP5(this);
+ 
   cp5.addButton("save")
     .setValue(0)
     .setPosition(10,100)
     .setSize(50,10)
     ;
-    /**
+  
   cp5.addTextfield("Filename")
     .setPosition(10,120)
     .setSize(100,20)
-    .setFocus(true)
+    .setFocus(false)
     .setColor(color(255,0,0))
     ;
-    **/
+   **/
  // TopicFileStream fs = new TopicFileStream();
  // fs.write(subtops, "test");
 }
@@ -34,6 +35,7 @@ void controlEvent(ControlEvent e){
   typefilename = true;
   if (e.isAssignableFrom(Textfield.class)){
     filen = e.getStringValue();
+    println(filen);
   }
 }
   /**  
@@ -169,9 +171,10 @@ void keyPressed(){
     //sibling
   }
   else if(key == 'v'&&setLabel == false&&typefilename==false){
-    println(filen);
-    TopicFileStream tfs = new TopicFileStream();
-    tfs.write(subtops, filen);
+    saveFrame("createdMaps/"+filen);
+    println("saved!");
+    //TopicFileStream tfs = new TopicFileStream();
+    //tfs.write(subtops, filen);
   }
   else if(key == 'w' && typefilename==false){
      setLabel = true;
