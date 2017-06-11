@@ -236,11 +236,14 @@ class TopicFileStream{
     println("attempting to serialize");
     ObjectOutputStream out = null;
     println("stuff");
+    FileOutputStream file=null;
     try{
-      FileOutputStream file = new FileOutputStream("/createdMaps/"+filename+".ser");
+      file=new FileOutputStream("try.txt");
+      //file = new FileOutputStream("/createdMaps/"+filename+".ser");
       println("more stuff");
       out = new ObjectOutputStream(file);
       println("doing stuff");
+      //out.writeObject(l);
       for( TopicDisplay t : l){
         out.writeObject(t);
       }
@@ -266,7 +269,8 @@ class TopicFileStream{
     ArrayList<TopicDisplay> l2 = new ArrayList<TopicDisplay>();
     ObjectInputStream in = null;
     try{
-      in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
+      //in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
+      in = new ObjectInputStream(new FileInputStream("try.txt"));
       while(true){
         TopicDisplay t = (TopicDisplay) in.readObject();
         l2.add(t);
