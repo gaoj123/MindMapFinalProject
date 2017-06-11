@@ -46,8 +46,9 @@ void mousePressed(){
   for (int num = 0; num < subtops.size(); num++){
     TopicDisplay check = subtops.get(num);
     println(check);
+    println("mouseX:"+mouseX+" mouseY:"+mouseY);
     //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
-    if (check.len > dist(mouseX, mouseY, check.x, check.y)){
+    if ( mouseX > check.x && mouseX < check.x + check.len && (mouseY >= check.y - 5 && mouseY <= check.y +5)){
       //if this was the selected topic, set the topic's selected boolean to be true
       subtops.get(num).selected = true;
       theChosenOne = num;
