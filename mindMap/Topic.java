@@ -22,6 +22,7 @@ public class Topic implements Comparable<Topic>{
     static int widthOfBox=2;
     int lengthOfBox=100;
     Topic parent;
+    boolean isParPar=false;
     Topic siblingSelected;
     int[] fromParCor=new int[2]; //on left side of rectangle
     int[] toSubCor=new int[2]; //on botom side of rectangle
@@ -31,6 +32,18 @@ public class Topic implements Comparable<Topic>{
     }
     public Topic(String x){
   text=x;
+    }
+    public Topic(int xcor, int ycor){
+  topLeftCorner()[0]=xcor;
+  topLeftCorner()[1]=ycor;
+  updateLeftRightEtc();
+  allObjects.add(this);
+    }
+    public void updateLeftRightEtc(){
+  fromParCor[0]=topLeftCorner()[0];
+  fromParCor[1]=topLeftCorner()[1]+widthOfBox/2;
+  toSubCor[0]=leftParCor()[0]+lengthOfBox/2;
+  toSubCor[1]=leftParCor()[1]+widthOfBox/2;
     }
     public int[] topLeftCorner(){
   int[] toRet=new int[2];
@@ -97,6 +110,8 @@ public class Topic implements Comparable<Topic>{
   isRoot=true;
   parent=new Topic();
   parent.isRoot=true;
+  parent.isParPar=true;
+  this.parent=parent;
   parent.fromParCor[0]=35-lengthOfBox/2;
   parent.fromParCor[1]=75;
   parent.toSubCor[0]=35;
@@ -106,6 +121,7 @@ public class Topic implements Comparable<Topic>{
   toSubCor[0]=100+lengthOfBox/2;
   toSubCor[1]=101+widthOfBox/2;
   parent.subtopics.add(this);
+  allObjects.add(this.parent);
   allObjects.add(this);
     }
     public boolean isRoot(){
@@ -130,9 +146,12 @@ public class Topic implements Comparable<Topic>{
     public void updateSib(){
   subHelper2(this,false);
     }
+    public boolean isParPar(){
+  return isParPar;
+    }
     public void subHelper2(Topic one, boolean stop){
   Topic x=one.parent;
-  if(x.isRoot()==true||one.isRoot()==true){
+  if(x.isParPar()==true){
       stop=true;
   }
   int ind=x.subtopics.indexOf(one);
@@ -330,8 +349,8 @@ public class Topic implements Comparable<Topic>{
   System.out.println(root);
   root.updateRoot();
   // System.out.println(root);
-  // Topic math=new Topic("math");
-  // root.addSubtopic(math);
+  Topic math=new Topic("math");
+  root.addSubtopic(math);
   // //Topic eng=new Topic("english");
   // Topic precalc=new Topic("precalc");
   // math.addSubtopic(precalc);
@@ -359,7 +378,9 @@ public class Topic implements Comparable<Topic>{
    Topic sched=new Topic("sched");
   root.addSibling(sched);
   Topic hr=new Topic("homeroom");
-        root.addSibling(hr);
+  root.addSibling(hr);
+  Topic history=new Topic("history");
+  math.addSibling(history);
   //----------------------
   for(Topic a:allObjects){
       System.out.println(a);
