@@ -11,9 +11,20 @@ String filen = "default";
 boolean typefilename = false;
 void setup() {
   size(800,800);
-  /**
+  
   cp5 = new ControlP5(this);
- 
+  /**
+  cp5.addScrollableList("select")
+    .setPosition(10,120)
+    .setSize(100,100)
+    .setBarHeight(20)
+    ;
+    **/
+    /**
+  cp5.addColorWheel("c",10,110,100).setRGB(color(128,0,255));
+  noStroke();
+  **/
+ /**
   cp5.addButton("save")
     .setValue(0)
     .setPosition(10,100)
@@ -189,6 +200,7 @@ class TopicDisplay implements Serializable{
   int y;      // top left corner y position
   boolean selected;
   int len;
+  color c;
   
   ArrayList<TopicDisplay> subs=new ArrayList<TopicDisplay>();
   
