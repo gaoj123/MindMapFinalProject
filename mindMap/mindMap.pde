@@ -29,14 +29,30 @@ void showup(){
   updateCors();
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
-    drawLines(topiclist.get(num));
+    //if(!topiclist.get(num).isRoot()){
+    //  drawLines(topiclist.get(num));
+    //}
+    if(topiclist.get(num).parent.isParPar()&&!topiclist.get(num).isRoot()){
+      draw2(topiclist.get(num));
+    }
+    else{
+      drawLines(topiclist.get(num));
+    }
     //println(num);
   }
   
 }
 void drawLines(Topic x){
-  line(x.vertLine()[0],x.vertLine()[1],x.vertLine()[2],x.vertLine()[3]);
+  if(!x.isRoot()&&!x.isParPar()&&!x.parent.isParPar()){
+    println("drawing");
+    line(x.vertLine()[0],x.vertLine()[1],x.vertLine()[2],x.vertLine()[3]);
+    line(x.horLine()[0],x.horLine()[1],x.horLine()[2],x.horLine()[3]);
+  }
+}
+void draw2(Topic x){
+    line(x.vertLine()[0],x.vertLine()[1],x.vertLine()[2],x.vertLine()[3]);
   line(x.horLine()[0],x.horLine()[1],x.horLine()[2],x.horLine()[3]);
+  line(x.horLine2()[0],x.horLine2()[1],x.horLine2()[2],x.horLine2()[3]);
 }
 void updateCors(){
   for(int i=0;i<topiclist.size();i++){
