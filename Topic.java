@@ -173,6 +173,11 @@ public class Topic implements Comparable<Topic>{
       stop=true;
   }
   int ind=x.subtopics.indexOf(one);
+  // for(int i=0;i<x.subtopics.size();i++){
+  //     if(x.getSub(i).leftParCor()[1]==one.leftParCor()[1]&&x.getSub(i)!=one){
+  // 	  x.getSub(i).shiftDown();
+  //     }
+  // }
   for(int i=ind+1;i<x.subtopics.size();i++){
       x.getSub(i).shiftDown();
   }
@@ -295,6 +300,9 @@ public class Topic implements Comparable<Topic>{
   //System.out.println("eh");
   return toRet;
     }
+    public void addSubInd(int ind, Topic children){
+	subtopics.add(ind,children);
+    }
     public void addSibling(Topic sibling){
   //"this" refers to sibling selected. call like this: siblingSelected.addSibling(Topic sibling) so siblingSelected and sibling will be on same level
         sibling.parent=this.parent;
@@ -303,7 +311,9 @@ public class Topic implements Comparable<Topic>{
   sibling.updateBotCor();
   //System.out.println(parent);
   //System.out.println(sibling);
-  this.parent.addSubPlain(sibling);
+  int index=this.parent.subtopics.indexOf(this);
+  this.parent.addSubInd(index+1,sibling);
+  //this.parent.addSubPlain(sibling);
   allObjects.add(sibling);
   sibling.updateSib();
   Collections.sort(this.parent.subtopics);
@@ -399,6 +409,8 @@ public class Topic implements Comparable<Topic>{
   root.addSibling(hr);
   Topic history=new Topic("history");
   math.addSibling(history);
+  Topic locker=new Topic("locker");
+  root.addSibling(locker);
   //----------------------
   for(Topic a:allObjects){
       System.out.println(a);
