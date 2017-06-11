@@ -290,10 +290,10 @@ public class Topic implements Comparable<Topic>{
   else{
       //System.out.println("yes");
       // lowestYCor=this.leftParCor()[1]-100;
-      Topic par=this.parent;
-      Topic last=par.getSub(par.subtopics.size()-1);
-      lowestYCor=last.leftParCor()[1]+25;
-      //lowestYCor=this.leftParCor()[1]+25;
+      //Topic par=this.parent;
+      //Topic last=par.getSub(par.subtopics.size()-1);
+      //lowestYCor=last.leftParCor()[1]+25;
+      lowestYCor=this.leftParCor()[1]+25;
   }
   toRet[1]=lowestYCor;
   //toRet[1]=this.leftParCor()[1]-100;
