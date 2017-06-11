@@ -414,6 +414,10 @@ public class Topic implements Comparable<Topic>{
   //----------------------
   for(Topic a:allObjects){
       System.out.println(a);
+      if(!a.isParPar()&&!a.isRoot()){
+	  System.out.println("vertline "+a.vertLine()[0]+", "+a.vertLine()[1]+"to "+a.vertLine()[2]+", "+a.vertLine()[3]);
+	  System.out.println("hortline "+a.horLine()[0]+", "+a.horLine()[1]+"to "+a.horLine()[2]+", "+a.horLine()[3]);
+      }
       //System.out.println(a.topLeftCorner()[0]+", "+a.topLeftCorner()[1]);
   }
   // Topic root=new Topic();
