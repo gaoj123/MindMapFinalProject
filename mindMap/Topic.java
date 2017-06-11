@@ -70,14 +70,24 @@ public class Topic implements Comparable<Topic>{
   return toRet;
     }
     public int[] vertLine(){
-  //call from child
   int[] toRet=new int[4];
-  toRet[0]=parent.botSubCor()[0];
-  toRet[1]=parent.botSubCor()[1];
-  toRet[2]=parent.botSubCor()[0];
-  //toRet[3]=parent.botSubCor()[1]-100;
-  toRet[3]=leftParCor()[1];
+  if(this.parent.isParPar()){
+      Topic x=this.parent.getSub(0);
+      toRet[0]=parent.botSubCor()[0];
+      toRet[1]=x.leftParCor()[1];
+      toRet[2]=parent.botSubCor()[0];
+      toRet[3]=leftParCor()[1];
+  }
+  //call from child
+  else{
+      toRet[0]=parent.botSubCor()[0];
+      toRet[1]=parent.botSubCor()[1];
+      toRet[2]=parent.botSubCor()[0];
+      //toRet[3]=parent.botSubCor()[1]-100;
+      toRet[3]=leftParCor()[1];
+  }
   return toRet;
+  
     }
     public void mod(String x){
   text+=x;
@@ -86,11 +96,20 @@ public class Topic implements Comparable<Topic>{
   return subtopics.get(index);
     }
     public int[] horLine(){
-  int[] toRet=new int[4];
-  toRet[0]=vertLine()[2];
-  toRet[1]=vertLine()[3];
-  toRet[2]=leftParCor()[0];
-  toRet[3]=leftParCor()[1];
+      int[] toRet=new int[4];
+      toRet[0]=vertLine()[2];
+      toRet[1]=vertLine()[3];
+      toRet[2]=leftParCor()[0];
+      toRet[3]=leftParCor()[1];
+  return toRet;
+    }
+    public int[] horLine2(){
+    int[] toRet=new int[4];
+  toRet[0]=vertLine()[0];
+  toRet[1]=vertLine()[1];
+  Topic x=this.parent.getSub(0);
+  toRet[2]=x.leftParCor()[0];
+  toRet[3]=x.leftParCor()[1];
   return toRet;
     }
     public void updateSiblingSelected(Topic sibChosen){
@@ -146,7 +165,7 @@ public class Topic implements Comparable<Topic>{
   return isRoot;
     }
     public void subHelper(Topic x, boolean stop){
-  if(x.isRoot()==true){
+  if(x.isRoot()==true||x.parent.isParPar()){
       stop=true;
   }
   Topic y=x.parent;
