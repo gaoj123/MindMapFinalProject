@@ -14,16 +14,16 @@
 <li>'s' to add a subtopic to a SELECTED topic</li>
 <li>'z' to add a sibling topic to a SELECTED topic</li>
 <li>RETURN to deselect</li>
-</ul>
+</ul><br>
 <ul><h3>Data Storage</h3>
 <li>Each topic has an ArrayList of topics (subtopics) (done Saturday 6/3)</li>
-</ul>
+</ul><br>
 <ul><h3><b>User Inputs Topics </b></h3>
 <li>Initial Plan: there are buttons to choose to add subtopics, floating topics, and siblings.  Once clicked, a text field appears (not working currently) (done Saturday 6/3)</li>
 <li>Now: Refer to above "Keys in Processing, Hit: " to learn how to create topics and edit the text of topics</li>
-</ul>
+</ul><br>
 <ul><h3>Labels on Diagram</h3>
 <li>When keys are pressed for new floating topics/subtopics/siblings to be created, coordinates will be generated for those new topics (some seemed to work on Saturday 6/3 but lots of problems arose as I [Jenny] started testing and trying out all possible cases so they work as of 6/11). </li>
 <li>Lines appear at these coordinate locations, and users can choose to edit the (blank) text</li>
-</ul>
+</ul><br>
 </html>
