@@ -29,11 +29,15 @@ void showup(){
   updateCors();
   for (int num = 0; num < subtops.size(); num++){  
     subtops.get(num).toBeDrawn();
+    drawLines(topiclist.get(num));
     //println(num);
   }
   
 }
-
+void drawLines(Topic x){
+  line(x.vertLine()[0],x.vertLine()[1],x.vertLine()[2],x.vertLine()[3]);
+  line(x.horLine()[0],x.horLine()[1],x.horLine()[2],x.horLine()[3]);
+}
 void updateCors(){
   for(int i=0;i<topiclist.size();i++){
     Topic now=topiclist.get(i);
