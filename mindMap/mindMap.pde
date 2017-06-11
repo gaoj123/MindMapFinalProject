@@ -13,19 +13,20 @@ void setup() {
   size(800,800);
   /**
   cp5 = new ControlP5(this);
+ 
   cp5.addButton("save")
     .setValue(0)
     .setPosition(10,100)
     .setSize(50,10)
     ;
-    /**
+  
   cp5.addTextfield("Filename")
     .setPosition(10,120)
     .setSize(100,20)
-    .setFocus(true)
+    .setFocus(false)
     .setColor(color(255,0,0))
     ;
-    **/
+   **/
  // TopicFileStream fs = new TopicFileStream();
  // fs.write(subtops, "test");
 }
@@ -34,6 +35,7 @@ void controlEvent(ControlEvent e){
   typefilename = true;
   if (e.isAssignableFrom(Textfield.class)){
     filen = e.getStringValue();
+    println(filen);
   }
 }
   /**  
@@ -50,7 +52,7 @@ void draw() {
 }
 
 void showup(){
-  String str = "KEY, hit:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic" +"\n"+"RETURN to deselect";
+  String str = "KEY, hit:"+"\n"+"'f' to add a floating topic"+"\n"+"'w' to edit text"+"\n"+"'s' to add a subtopic to a SELECTED topic"+"\n"+"'z' to add a sibling topic to a SELECTED topic" +"\n"+"RETURN to deselect"+"\n"+"'v' to save a screenshot";
   fill(50);
   text(str, 10, 10, 300, 200);
   updateCors();
@@ -169,9 +171,10 @@ void keyPressed(){
     //sibling
   }
   else if(key == 'v'&&setLabel == false&&typefilename==false){
-    println(filen);
-    TopicFileStream tfs = new TopicFileStream();
-    tfs.write(subtops, filen);
+    saveFrame("createdMaps/"+filen);
+    println("saved!");
+    //TopicFileStream tfs = new TopicFileStream();
+    //tfs.write(subtops, filen);
   }
   else if(key == 'w' && typefilename==false){
      setLabel = true;
@@ -253,16 +256,23 @@ class TopicFileStream{
       out = new ObjectOutputStream(file);
       println("doing stuff");
       //out.writeObject(l);
+      
       for( TopicDisplay t : l){
+        println(t);
         out.writeObject(t);
       }
+      
+      
+      //out.writeObject(l);
+      out.close();
+      println("done");
     }
    
     catch (IOException e){
       println("Error opening");
     }
     
-    finally{
+    /**finally{
       try{
         if (out != null){
           out.close();
@@ -272,6 +282,7 @@ class TopicFileStream{
         println("Error closing");
       }
     }
+    **/
   }
   
   ArrayList<TopicDisplay> read(String filename){
@@ -279,7 +290,7 @@ class TopicFileStream{
     ObjectInputStream in = null;
     try{
       //in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
-      in = new ObjectInputStream(new FileInputStream("try.txt"));
+      in = new ObjectInputStream(new FileInputStream("default.ser"));
       while(true){
         TopicDisplay t = (TopicDisplay) in.readObject();
         l2.add(t);
