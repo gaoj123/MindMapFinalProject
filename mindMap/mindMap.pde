@@ -11,20 +11,23 @@ String filen = "default";
 boolean typefilename = false;
 void setup() {
   size(800,800);
+  /**
   cp5 = new ControlP5(this);
   cp5.addButton("save")
     .setValue(0)
     .setPosition(10,100)
     .setSize(50,10)
     ;
+    /**
   cp5.addTextfield("Filename")
     .setPosition(10,120)
     .setSize(100,20)
     .setFocus(true)
     .setColor(color(255,0,0))
     ;
-  TopicFileStream fs = new TopicFileStream();
-  fs.write(subtops, "test");
+    **/
+ // TopicFileStream fs = new TopicFileStream();
+ // fs.write(subtops, "test");
 }
 
 void controlEvent(ControlEvent e){
@@ -33,12 +36,13 @@ void controlEvent(ControlEvent e){
     filen = e.getStringValue();
   }
 }
-    
+  /**  
 void save(int val){
   println(filen);
   TopicFileStream tfs = new TopicFileStream();
   tfs.write(subtops, filen);
 }
+**/
 
 void draw() {
   background(250);
@@ -164,6 +168,11 @@ void keyPressed(){
     println(topiclist.get(theChosenOne));
     //sibling
   }
+  else if(key == 'v'&&setLabel == false&&typefilename==false){
+    println(filen);
+    TopicFileStream tfs = new TopicFileStream();
+    tfs.write(subtops, filen);
+  }
   else if(key == 'w' && typefilename==false){
      setLabel = true;
      println("change to writing mode");
@@ -238,7 +247,7 @@ class TopicFileStream{
     println("stuff");
     FileOutputStream file=null;
     try{
-      file=new FileOutputStream("try.txt");
+      file=new FileOutputStream("default.ser");
       //file = new FileOutputStream("/createdMaps/"+filename+".ser");
       println("more stuff");
       out = new ObjectOutputStream(file);
