@@ -14,7 +14,7 @@ public class Topic implements Comparable<Topic>{
     }
     ArrayList<Topic> subtopics=new ArrayList<Topic>();
     static ArrayList<Topic> allObjects=new ArrayList<Topic>();
-    String text;
+    String text="";
     int fontSize;
     boolean isRoot=false;
     // static int topicId=0;
@@ -34,16 +34,34 @@ public class Topic implements Comparable<Topic>{
   text=x;
     }
     public Topic(int xcor, int ycor){
-  topLeftCorner()[0]=xcor;
-  topLeftCorner()[1]=ycor;
-  updateLeftRightEtc();
+  // this.topLeftCorner()[0]=xcor;
+  // this.topLeftCorner()[1]=ycor;
+  // System.out.println(xcor+", "+ycor);
+  // System.out.println(topLeftCorner()[0]+topLeftCorner()[1]);
+  updateLeftRightEtc(xcor,ycor);
+  isRoot=true;
+  parent=new Topic();
+  parent.isRoot=true;
+  parent.isParPar=true;
+  this.parent=parent;
+  parent.toSubCor[0]=fromParCor[0]-65;
+  parent.toSubCor[1]=fromParCor[1]-25;
+  parent.fromParCor[0]=parent.toSubCor[0]-lengthOfBox/2;
+  parent.fromParCor[1]=parent.toSubCor[1]-widthOfBox/2; 
+  //fromParCor[0]=100;
+  //fromParCor[1]=101;
+  //toSubCor[0]=100+lengthOfBox/2;
+  //toSubCor[1]=101+widthOfBox/2;
+  parent.subtopics.add(this);
+  allObjects.add(this.parent);
   allObjects.add(this);
     }
-    public void updateLeftRightEtc(){
-  fromParCor[0]=topLeftCorner()[0];
-  fromParCor[1]=topLeftCorner()[1]+widthOfBox/2;
+    public void updateLeftRightEtc(int a,int b){
+  fromParCor[0]=a;
+  fromParCor[1]=b+widthOfBox/2;
   toSubCor[0]=leftParCor()[0]+lengthOfBox/2;
   toSubCor[1]=leftParCor()[1]+widthOfBox/2;
+  System.out.println(fromParCor[0]+", "+fromParCor[1]+" & "+toSubCor[0]+", "+toSubCor[1]);
     }
     public int[] topLeftCorner(){
   int[] toRet=new int[2];
@@ -112,14 +130,14 @@ public class Topic implements Comparable<Topic>{
   parent.isRoot=true;
   parent.isParPar=true;
   this.parent=parent;
-  parent.fromParCor[0]=35-lengthOfBox/2;
-  parent.fromParCor[1]=75;
-  parent.toSubCor[0]=35;
-  parent.toSubCor[1]=76; 
+  parent.toSubCor[0]=fromParCor[0]-65;
+  parent.toSubCor[1]=fromParCor[1]-25;
+  parent.fromParCor[0]=parent.toSubCor[0]-lengthOfBox/2;
+  parent.fromParCor[1]=parent.toSubCor[1]-widthOfBox/2; 
   //fromParCor[0]=100;
   //fromParCor[1]=101;
-  toSubCor[0]=100+lengthOfBox/2;
-  toSubCor[1]=101+widthOfBox/2;
+  //toSubCor[0]=100+lengthOfBox/2;
+  //toSubCor[1]=101+widthOfBox/2;
   parent.subtopics.add(this);
   allObjects.add(this.parent);
   allObjects.add(this);
@@ -344,7 +362,7 @@ public class Topic implements Comparable<Topic>{
     // }
     public static void main(String[] args){
   //--------------------
-  Topic root=new Topic();
+  Topic root=new Topic(100,100);
   root.modifyLabel("classes");
   System.out.println(root);
   root.updateRoot();
