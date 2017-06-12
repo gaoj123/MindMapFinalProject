@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-public class Topic implements Comparable<Topic>, Serializable{
+public class Topic implements Comparable<Topic>{
     public int compareTo(Topic other){
   //in decreasing order of y-cor
   if(botSubCor()[1]<other.botSubCor()[1]){
