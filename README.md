@@ -13,6 +13,7 @@
 <li>'w' to edit text</li>
 <li>'s' to add a subtopic to a SELECTED topic</li>
 <li>'z' to add a sibling topic to a SELECTED topic</li>
+<li>'v' to save a screenshot</li>
 <li>RETURN to deselect</li>
 </ul><br>
 <ul><h3>Data Storage</h3>
