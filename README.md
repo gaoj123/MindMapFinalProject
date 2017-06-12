@@ -32,6 +32,6 @@
 <i>Note: For this to work, the user must load the fonts in Processing.  Processing window: TOOLS --> CREATE FONT (for 10 fonts).  The 10 fonts include Calibri, Cambria, Century Gothic, Comic Sans, Courier New, Georgia, Papyrus, Script, Times New Roman, and Verdana.</i>
 </ul><br>
 <ul><h3>To Save</h3>
-<li>Originally, I [Karen] worked on serializing the file, but serialization interfered with key-pressing. Instead, 'v' will now have Processing take and save a screenshot of the mindmap into the createdMaps folder.</li>
+<li>Originally, I [Karen] worked on serializing the file, but serialization interfered with key-pressing. Instead, hitting the 'v' key will now have Processing take and save a screenshot of the mindmap into the createdMaps folder. The file will either be named "default" or will be named whatever was entered most recently into the "Filename" textfield.</li>
 </ul><br>
 </html>
