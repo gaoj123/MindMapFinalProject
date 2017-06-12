@@ -9,10 +9,19 @@ boolean setLabel = false;
 int theChosenOne;
 String filen = "default";
 boolean typefilename = false;
+DropdownList d1;
 void setup() {
   size(800,800);
   
   cp5 = new ControlP5(this);
+  //PFont comicSan=loadFont("ComicSansMS-48.vlw");
+  //PFont calib=loadFont("Calibri-48.vlw");
+  
+  //textFont(calib,20);
+  d1 = cp5.addDropdownList("myList-d1")
+          .setPosition(10, 200)
+          ;
+           customize(d1); 
   /**
   cp5.addScrollableList("select")
     .setPosition(10,120)
@@ -41,13 +50,86 @@ void setup() {
  // TopicFileStream fs = new TopicFileStream();
  // fs.write(subtops, "test");
 }
-
+void customize(DropdownList ddl) {
+  // a convenience function to customize a DropdownList
+  ddl.setBackgroundColor(color(190));
+  ddl.setItemHeight(20);
+  ddl.setBarHeight(15);
+  ddl.getCaptionLabel().set("Font");
+  ddl.addItem("Calibri",1);
+  ddl.addItem("Cambria",2);
+  ddl.addItem("Century Gothic",3);
+  ddl.addItem("Comic Sans",4);
+  ddl.addItem("Courier New",5);
+  ddl.addItem("Georgia",6);
+  ddl.addItem("Papyrus",7);
+  ddl.addItem("Script",8);
+  ddl.addItem("Times New Roman",9);
+  ddl.addItem("Verdana",10);
+  //for (int i=0;i<40;i++) {
+  //  ddl.addItem("item "+i, i);
+  //}
+  //ddl.scroll(0);
+  ddl.setColorBackground(color(60));
+  ddl.setColorActive(color(255, 128));
+}
 void controlEvent(ControlEvent e){
-  typefilename = true;
-  if (e.isAssignableFrom(Textfield.class)){
-    filen = e.getStringValue();
-    println(filen);
+  if (e.isGroup()) {
+    // check if the Event was triggered from a ControlGroup
+    println("event from group : "+e.getGroup().getValue()+" from "+e.getGroup());
+  } 
+  else if (e.isController()) {
+    println("event from controller : "+e.getController().getValue()+" from "+e.getController());
+    if(e.getController().getValue()==0.0){
+      PFont calib=loadFont("Calibri-48.vlw");
+      textFont(calib,15);
+    }
+    else if(e.getController().getValue()==1.0){
+        PFont cambria=loadFont("Cambria-48.vlw");
+      textFont(cambria,15);
+    }
+    else if(e.getController().getValue()==2.0){
+        PFont cen=loadFont("CenturyGothic-48.vlw");
+      textFont(cen,15);
+    }
+       else if(e.getController().getValue()==3.0){
+       PFont comicSan=loadFont("ComicSansMS-48.vlw");
+      textFont(comicSan,15);
+       }
+    else if(e.getController().getValue()==4.0){
+        PFont cour=loadFont("CourierNewPSMT-48.vlw");
+      textFont(cour,15);
+    }
+        else if(e.getController().getValue()==5.0){
+       PFont georgia=loadFont("Georgia-48.vlw");
+      textFont(georgia,15);
+    }
+    else if(e.getController().getValue()==6.0){
+        PFont pap=loadFont("Papyrus-Regular-48.vlw");
+      textFont(pap,15);
+    }
+    else if(e.getController().getValue()==7.0){
+        PFont scr=loadFont("ScriptC-48.vlw");
+      textFont(scr,15);
+    }
+     else if(e.getController().getValue()==8.0){
+       PFont tnr=loadFont("TimesNewRomanPSMT-48.vlw");
+      textFont(tnr,15);
+    }
+    else if(e.getController().getValue()==9.0){
+       PFont ver=loadFont("Verdana-48.vlw");
+      textFont(ver,15);
+    }
+    else if(e.getController().getValue()==4.0){
+       PFont tnr=loadFont("TimesNewRomanPSMT-48.vlw");
+      textFont(tnr,15);
+    }
   }
+  //typefilename = true;
+  //if (e.isAssignableFrom(Textfield.class)){
+  //  filen = e.getStringValue();
+  //  println(filen);
+  //}
 }
   /**  
 void save(int val){
