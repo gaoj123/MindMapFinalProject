@@ -14,41 +14,19 @@ void setup() {
   size(800,800);
   
   cp5 = new ControlP5(this);
-  //PFont comicSan=loadFont("ComicSansMS-48.vlw");
-  //PFont calib=loadFont("Calibri-48.vlw");
-  
-  //textFont(calib,20);
+
   d1 = cp5.addDropdownList("myList-d1")
           .setPosition(10, 200)
           ;
            customize(d1); 
-  /**
-  cp5.addScrollableList("select")
-    .setPosition(10,120)
-    .setSize(100,100)
-    .setBarHeight(20)
-    ;
-    **/
-    /**
-  cp5.addColorWheel("c",10,110,100).setRGB(color(128,0,255));
-  noStroke();
-  **/
- /**
-  cp5.addButton("save")
-    .setValue(0)
-    .setPosition(10,100)
-    .setSize(50,10)
-    ;
-  **/
   tf = cp5.addTextfield("Filename")
     .setValue(10.0)
-    .setPosition(10,130)
+    .setPosition(10,300)
     .setSize(100,20)
     .setFocus(false)
     .setColor(color(255,0,0))
     ;
- // TopicFileStream fs = new TopicFileStream();
- // fs.write(subtops, "test");
+  tf.getCaptionLabel().setColor(color(255,0,0));
 }
 void customize(DropdownList ddl) {
   // a convenience function to customize a DropdownList
@@ -63,13 +41,10 @@ void customize(DropdownList ddl) {
   ddl.addItem("Courier New",5);
   ddl.addItem("Georgia",6);
   ddl.addItem("Papyrus",7);
-  ddl.addItem("Script",8);
-  ddl.addItem("Times New Roman",9);
-  ddl.addItem("Verdana",10);
-  //for (int i=0;i<40;i++) {
-  //  ddl.addItem("item "+i, i);
-  //}
-  //ddl.scroll(0);
+  //ddl.addItem("Script",8);
+  //ddl.addItem("Times New Roman",9);
+  //ddl.addItem("Verdana",10);
+
   ddl.setColorBackground(color(60));
   ddl.setColorActive(color(255, 128));
 }
@@ -105,34 +80,30 @@ void controlEvent(ControlEvent e){
       textFont(georgia,15);
     }
     else if(e.getController().getValue()==6.0){
-        PFont pap=loadFont("Papyrus-Regular-48.vlw");
+        PFont pap=loadFont("Papyrus-48.vlw");
       textFont(pap,15);
     }
+    /**
     else if(e.getController().getValue()==7.0){
         PFont scr=loadFont("ScriptC-48.vlw");
       textFont(scr,15);
     }
+    
      else if(e.getController().getValue()==8.0){
        PFont tnr=loadFont("TimesNewRomanPSMT-48.vlw");
       textFont(tnr,15);
     }
+    
     else if(e.getController().getValue()==9.0){
        PFont ver=loadFont("Verdana-48.vlw");
       textFont(ver,15);
     }
+    **/
   }
   if (e.isAssignableFrom(Textfield.class)){
     filen = e.getStringValue();
-    println(filen);
   }
 }
-  /**  
-void save(int val){
-  println(filen);
-  TopicFileStream tfs = new TopicFileStream();
-  tfs.write(subtops, filen);
-}
-**/
 
 void draw() {
   background(250);
@@ -179,15 +150,14 @@ void mousePressed(){
   //loop to go through every single topic in the arraylist and see if this is the topic that was selected
   for (int num = 0; num < subtops.size(); num++){
     TopicDisplay check = subtops.get(num);
-    println(check);
-    println("mouseX:"+mouseX+" mouseY:"+mouseY);
+    
     //determine if it was selected by comparing the x and y values with mouseX and mouseY and seeing if the distances are less than the length of the topic
     if ( mouseX > check.x && mouseX < check.x + check.len && (mouseY >= check.y - 5 && mouseY 
 <= check.y +5)){
       //if this was the selected topic, set the topic's selected boolean to be true
       subtops.get(num).selected = true;
       theChosenOne = num;
-      println("something was selected! "+subtops.get(theChosenOne));
+      
       return;
     }
   
@@ -230,13 +200,11 @@ void keyPressed(){
   }
   if (key == 'f'&&setLabel==false&&tf.isFocus()==false){
     Topic x=new Topic(mouseX,mouseY);
-    println("mouseX: " +mouseX+" mouseY: "+mouseY);
     if(topiclist.size()==0){
       subtops.add(new TopicDisplay(mouseX,mouseY,100));
     }   
     else{
       subtops.add(new TopicDisplay(mouseX, mouseY,100));
-      println("X :"+mouseX+" Y"+mouseY);
     }
     topiclist.add(x);
    }
@@ -246,33 +214,28 @@ void keyPressed(){
     topiclist.get(theChosenOne).addSubtopic(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0], x.topLeftCorner()[1], 100));
     topiclist.add(x);
-    println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
     
   }
   else if (key == 'z'&&setLabel==false&& tf.isFocus() == false){
     Topic x=new Topic();
     topiclist.get(theChosenOne).addSibling(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],100));
-    println(subtops.get(subtops.size()-1));
-    println("new sib coords:"+subtops.get(theChosenOne + 1));
     topiclist.add(x);
-    println(topiclist.get(theChosenOne));
     //sibling
   }
   else if(key == 'v'&&setLabel == false&& tf.isFocus()==false){
     saveFrame("createdMaps/"+filen);
-    println("saved!");
     //TopicFileStream tfs = new TopicFileStream();
     //tfs.write(subtops, filen);
   }
   else if(key == 'w' && tf.isFocus() ==false){
      setLabel = true;
-     println("change to writing mode");
+    // println("change to writing mode");
   }
   
 }
     
-class TopicDisplay implements Serializable{
+class TopicDisplay{
   String label =""; // label
   int x;      // top left corner x position
   int y;      // top left corner y position
@@ -327,81 +290,5 @@ class TopicDisplay implements Serializable{
    
   }
   
-  void connect(){
-    //if this is not a floating topic, draw two lines, to the right and above to connect to previous topic
-  }
  
-}
-
-class TopicFileStream{
-  void write(ArrayList<TopicDisplay> l, String filename){
-    println("attempting to serialize");
-    ObjectOutputStream out = null;
-    println("stuff");
-    FileOutputStream file=null;
-    try{
-      file=new FileOutputStream("default.ser");
-      //file = new FileOutputStream("/createdMaps/"+filename+".ser");
-      println("more stuff");
-      out = new ObjectOutputStream(file);
-      println("doing stuff");
-      //out.writeObject(l);
-      
-      for( TopicDisplay t : l){
-        println(t);
-        out.writeObject(t);
-      }
-      
-      
-      //out.writeObject(l);
-      out.close();
-      println("done");
-    }
-   
-    catch (IOException e){
-      println("Error opening");
-    }
-    
-    /**finally{
-      try{
-        if (out != null){
-          out.close();
-        }
-      }
-      catch(IOException e){
-        println("Error closing");
-      }
-    }
-    **/
-  }
-  
-  ArrayList<TopicDisplay> read(String filename){
-    ArrayList<TopicDisplay> l2 = new ArrayList<TopicDisplay>();
-    ObjectInputStream in = null;
-    try{
-      //in = new ObjectInputStream(new FileInputStream("createdMaps/"+filename+".ser"));
-      in = new ObjectInputStream(new FileInputStream("default.ser"));
-      while(true){
-        TopicDisplay t = (TopicDisplay) in.readObject();
-        l2.add(t);
-      }
-    }
-    catch(ClassNotFoundException e){
-      println("fail");
-    }
-    catch(IOException e){
-      println("Error opening");
-    }
-    finally{
-      try{
-        if (in != null){
-          in.close();
-        }
-      }
-      catch(IOException e){
-        println("Error closing");
-      }
-    }
-    return l2;
-  }
 }
