@@ -8,8 +8,8 @@ ArrayList<Topic> topiclist = new ArrayList<Topic>(10);
 boolean setLabel = false;
 int theChosenOne;
 String filen = "default";
-boolean typefilename = false;
 DropdownList d1;
+Textfield tf;
 void setup() {
   size(800,800);
   
@@ -39,14 +39,14 @@ void setup() {
     .setPosition(10,100)
     .setSize(50,10)
     ;
-  
-  cp5.addTextfield("Filename")
-    .setPosition(10,120)
+  **/
+  tf = cp5.addTextfield("Filename")
+    .setValue(10.0)
+    .setPosition(10,130)
     .setSize(100,20)
     .setFocus(false)
     .setColor(color(255,0,0))
     ;
-   **/
  // TopicFileStream fs = new TopicFileStream();
  // fs.write(subtops, "test");
 }
@@ -125,11 +125,10 @@ void controlEvent(ControlEvent e){
       textFont(tnr,15);
     }
   }
-  //typefilename = true;
-  //if (e.isAssignableFrom(Textfield.class)){
-  //  filen = e.getStringValue();
-  //  println(filen);
-  //}
+  if (e.isAssignableFrom(Textfield.class)){
+    filen = e.getStringValue();
+    println(filen);
+  }
 }
   /**  
 void save(int val){
@@ -162,7 +161,7 @@ void showup(){
 }
 void drawLines(Topic x){
   if(!x.isRoot()&&!x.isParPar()&&!x.parent.isParPar()){
-    println("drawing");
+    //println("drawing");
     line(x.vertLine()[0],x.vertLine()[1],x.vertLine()[2],x.vertLine()[3]);
     line(x.horLine()[0],x.horLine()[1],x.horLine()[2],x.horLine()[3]);
   }
@@ -200,9 +199,10 @@ void mousePressed(){
   
   
 }
+
 void keyPressed(){
   showup();
-  if (key == ENTER&&typefilename==false){
+  if (key == ENTER&& tf.isFocus() == false){
     setLabel = false;
     subtops.get(theChosenOne).selected = false;
     println("no longer performing any action");
@@ -232,7 +232,7 @@ void keyPressed(){
   
     println(newLabel);
   }
-  if (key == 'f'&&setLabel==false&&typefilename==false){
+  if (key == 'f'&&setLabel==false&&tf.isFocus()==false){
     Topic x=new Topic(mouseX,mouseY);
     println("mouseX: " +mouseX+" mouseY: "+mouseY);
     if(topiclist.size()==0){
@@ -244,7 +244,7 @@ void keyPressed(){
     }
     topiclist.add(x);
    }
-  else if (key == 's'&&setLabel==false&&typefilename == false){
+  else if (key == 's' && setLabel==false && tf.isFocus() == false){
     Topic x=new Topic();
     println(topiclist.get(theChosenOne));
     topiclist.get(theChosenOne).addSubtopic(x);
@@ -253,7 +253,7 @@ void keyPressed(){
     println(x.topLeftCorner()[0]+", "+ x.topLeftCorner()[1]);
     
   }
-  else if (key == 'z'&&setLabel==false&&typefilename == false){
+  else if (key == 'z'&&setLabel==false&& tf.isFocus() == false){
     Topic x=new Topic();
     topiclist.get(theChosenOne).addSibling(x);
     subtops.add(new TopicDisplay(x.topLeftCorner()[0],x.topLeftCorner()[1],100));
@@ -263,13 +263,13 @@ void keyPressed(){
     println(topiclist.get(theChosenOne));
     //sibling
   }
-  else if(key == 'v'&&setLabel == false&&typefilename==false){
+  else if(key == 'v'&&setLabel == false&& tf.isFocus()==false){
     saveFrame("createdMaps/"+filen);
     println("saved!");
     //TopicFileStream tfs = new TopicFileStream();
     //tfs.write(subtops, filen);
   }
-  else if(key == 'w' && typefilename==false){
+  else if(key == 'w' && tf.isFocus() ==false){
      setLabel = true;
      println("change to writing mode");
   }
