@@ -120,10 +120,6 @@ void controlEvent(ControlEvent e){
        PFont ver=loadFont("Verdana-48.vlw");
       textFont(ver,15);
     }
-    else if(e.getController().getValue()==4.0){
-       PFont tnr=loadFont("TimesNewRomanPSMT-48.vlw");
-      textFont(tnr,15);
-    }
   }
   //typefilename = true;
   //if (e.isAssignableFrom(Textfield.class)){
