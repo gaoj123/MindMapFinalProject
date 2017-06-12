@@ -29,9 +29,9 @@
 </ul><br>
 <ul><h3>Stylistic Features</h3>
 <li>User can choose the font from a drop-down list of 10 font types.  This font applies to all text labels.</li><br>
-<i>Note: For this to work, the user must load the fonts in Processing.  Processing window: TOOLS --> CREATE FONT (for 10 fonts).  The 10 fonts include Calibri, Cambria, Century Gothic, Comic Sans, Courier New, Georgia, Papyrus, Script, Times New Roman, and Verdana.</i>
+<i>Note: For this to work, the user must be sure all fonts have been loaded. These fonts are available in the "/data" folder, but if not located, to access the fonts: Processing window: TOOLS --> CREATE FONT (for 10 fonts).  The 10 fonts include Calibri, Cambria, Century Gothic, Comic Sans, Courier New, Georgia, Papyrus, Script, Times New Roman, and Verdana.</i>
 </ul><br>
-<ul><h3>To Save</h3>
+<ul><h3>Saving</h3>
 <li>Originally, I [Karen] worked on serializing the file, but serialization interfered with key-pressing. Instead, hitting the 'v' key will now have Processing take and save a screenshot of the mindmap into the createdMaps folder. The file will either be named "default" or will be named whatever was entered most recently into the "Filename" textfield.</li>
 </ul><br>
 </html>
