@@ -9,7 +9,7 @@
 <p>Mind Mapping is a program that allows users to organize ideas by creating visual outlines. Users start with a blank document to add various topics to. Each individual topic can create a sibling or subtopic.  The direction is down and to the right.</p>
 <br>
 <ul><h3>Keys in Processing, Hit: </h3>
-<li>'f' to add a floating topic</li>
+<li>'f' to add a floating topic wherever mouse is located</li>
 <li>'w' to edit text</li>
 <li>'s' to add a subtopic to a SELECTED topic</li>
 <li>'z' to add a sibling topic to a SELECTED topic</li>
