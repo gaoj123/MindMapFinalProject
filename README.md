@@ -27,6 +27,10 @@
 <li>When keys are pressed for new floating topics/subtopics/siblings to be created, coordinates will be generated for those new topics (some seemed to work on Saturday 6/3 but lots of problems arose as I [Jenny] started testing and trying out all possible cases so they work as of 6/11). </li>
 <li>Lines appear at these coordinate locations, and users can choose to edit the (blank) text</li>
 </ul><br>
+<ul><h3>Stylistic Features</h3>
+<li>User can choose the font from a drop-down list of 10 font types.  This font applies to all text labels.</li><br>
+<i>Note: For this to work, the user must load the fonts in Processing.  Processing window: TOOLS --> CREATE FONT (for 10 fonts).  The 10 fonts include Calibri, Cambria, Century Gothic, Comic Sans, Courier New, Georgia, Papyrus, Script, Times New Roman, and Verdana.</i>
+</ul><br>
 <ul><h3>To Save</h3>
 <li>Originally, I [Karen] worked on serializing the file, but serialization interfered with key-pressing. Instead, 'v' will now have Processing take and save a screenshot of the mindmap into the createdMaps folder.</li>
 </ul><br>
